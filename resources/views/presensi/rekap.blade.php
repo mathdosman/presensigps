@@ -56,6 +56,18 @@
                   </div>
                 </div>
                 <div class="row mt-2">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <select name="kelas" id="kelas" class="form-select" required>
+                        <option value="" hidden class="text-muted">--Kelas--</option>
+                            @foreach ($kelas as $d)
+                                <option value="{{$d->kode_dept}}">{{$d->nama_dept}}</option>
+                            @endforeach
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-2">
                   <div class="col-6">
                     <div class="form-group">
                      <button type="submit" name="cetak" class="btn btn-primary w-100">

@@ -92,6 +92,7 @@ function selisih($jam_masuk, $jam_keluar)
 <table class="tabelpresensi" style="font-size: 10px">
     <tr>
         <th rowspan="2">NISN</th>
+        <th rowspan="2">Kelas</th>
         <th rowspan="2">Nama Siswa</th>
         <th colspan="31">Tanggal</th>
         <th rowspan="2">Total <br> Hadir</th>
@@ -110,6 +111,7 @@ function selisih($jam_masuk, $jam_keluar)
         @foreach ($rekap as $d)
         <tr>
             <td>{{$d->nik}}</td>
+            <td>{{$d->nama_dept}}</td>
             <td style="text-align: left !important">{{$d->nama_lengkap}}</td>
 
             <?php
