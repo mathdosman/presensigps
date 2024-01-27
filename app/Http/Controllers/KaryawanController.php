@@ -66,6 +66,9 @@ class KaryawanController extends Controller
                 return Redirect::back()->with(['success'=>'Data Berhasil Disimpan']);
             }
         } catch (\Exception $e) {
+            if($e->getCode() == 23000){
+                $message = "Data dengan NISN ".$nik."Sudah Ada";
+            }
             return Redirect::back()->with(['warning'=>'Data Gagal Disimpan']);
         }
     }

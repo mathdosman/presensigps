@@ -57,8 +57,8 @@
                         <div class="row m-auto mt-2">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <select name="nik" id="nik" class="form-select">
-                                        <option value="">Pilih Siswa</option>
+                                    <select name="nik" id="nik" class="form-select" required>
+                                        <option value="" hidden>--Pilih Siswa--</option>
                                         @foreach ($karyawan as $d)
                                             <option value="{{$d->nik}}">{{$d->nama_lengkap}}</option>
                                         @endforeach
