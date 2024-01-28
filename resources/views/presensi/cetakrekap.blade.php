@@ -43,6 +43,10 @@
     font-size: 12px;
     text-align: center;
   }
+  body.legal.landscape .sheet {
+    width: 357mm;
+    height: auto !important;
+}
 
 </style>
 </head>

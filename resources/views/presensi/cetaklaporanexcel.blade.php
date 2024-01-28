@@ -44,6 +44,10 @@
     width: 40px;
     height: 45px;
   }
+  body.A4 .sheet {
+    width: 210mm;
+    height: auto !important;
+}
 
 </style>
 
