@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CabangController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\DashboardController;
@@ -89,6 +90,16 @@ Route::middleware(['auth:user'])->group(function(){
     Route::post('/presensi/approveizinsakit', [PresensiController::class, 'approveizinsakit']);
     Route::get('/presensi/{id}/batalkanizinsakit', [PresensiController::class, 'batalkanizinsakit']);
 
+    //Cabang
+    Route::get('/cabang',[CabangController::class, 'index']);
+    Route::post('/cabang/store',[CabangController::class, 'store']);
+    Route::post('/cabang/edit', [CabangController::class, 'edit']);
+    Route::post('/cabang/update', [CabangController::class, 'update']);
+    Route::post('/cabang/{kode_cabang}/delete', [CabangController::class, 'delete']);
+
+
+
+    //konfigurasi
     Route::get('/konfigurasi/lokasikantor',[KonfigurasiController::class, 'lokasikantor']);
     Route::post('/konfigurasi/updatelokasikantor',[KonfigurasiController::class, 'updatelokasikantor']);
 });
