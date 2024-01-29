@@ -45,6 +45,16 @@
             </select>
           </div>
     </div>
+    <div class="row">
+        <div class="input-icon mb-3">
+            <select name="kode_cabang" id="kode_cabang" class="form-select">
+                <option value="" hidden>Cabang</option>
+                @foreach ($cabang as $d)
+                <option {{$karyawan->kode_cabang == $d->kode_cabang ? 'selected': ''}} value="{{ $d->kode_cabang }}" >{{strtoupper($d->nama_cabang)}}</option>
+                @endforeach
+            </select>
+          </div>
+    </div>
 
     <div class="mb-3">
     <div class="form-label">Tambahkan Foto Profil</div>

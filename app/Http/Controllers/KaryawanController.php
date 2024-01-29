@@ -26,8 +26,8 @@ class KaryawanController extends Controller
         $karyawan = $query->orderBy('nama_lengkap')->paginate(50);
 
         $departemen=DB::table('departemen')->get();
-
-        return view('karyawan.index',compact('karyawan','departemen'));
+        $cabang = DB::table('cabang')->orderBy('kode_cabang')->get();
+        return view('karyawan.index',compact('karyawan','departemen','cabang'));
     }
 
     public function store(Request $request)
@@ -38,6 +38,7 @@ class KaryawanController extends Controller
         $jabatan = $request->jabatan;
         $kode_dept = $request->kode_dept;
         $password = Hash::make('123456');
+        $kode_cabang = $request->kode_cabang;
         if($request->hasFile('foto')){
             $foto = $nik.".".$request->file('foto')->getClientOriginalExtension();
         }else{
@@ -52,7 +53,8 @@ class KaryawanController extends Controller
                 'no_hp' => $no_hp,
                 'kode_dept' => $kode_dept,
                 'foto' => $foto,
-                'password' => $password
+                'password' => $password,
+                'kode_cabang' => $kode_cabang
             ];
 
             $simpan = DB::table('karyawan')->insert($data);
@@ -77,8 +79,9 @@ class KaryawanController extends Controller
     {
         $nik = $request->nik;
         $departemen=DB::table('departemen')->get();
+        $cabang = DB::table('cabang')->orderBy('kode_cabang')->get();
         $karyawan = DB::table('karyawan')->where('nik', $nik)->first();
-        return view('karyawan.edit',compact('departemen','karyawan'));
+        return view('karyawan.edit',compact('departemen','karyawan','cabang'));
     }
 
     public function update($nik, Request $request){
@@ -88,6 +91,7 @@ class KaryawanController extends Controller
         $jabatan = $request->jabatan;
         $kode_dept = $request->kode_dept;
         $password = $request->old_password;
+        $kode_cabang = $request->kode_cabang;
         $old_foto = $request->old_foto;
         if($request->hasFile('foto')){
             $foto = $nik.".".$request->file('foto')->getClientOriginalExtension();
@@ -102,7 +106,8 @@ class KaryawanController extends Controller
                 'no_hp' => $no_hp,
                 'kode_dept' => $kode_dept,
                 'foto' => $foto,
-                'password' => $password
+                'password' => $password,
+                'kode_cabang' => $kode_cabang
             ];
 
             $update = DB::table('karyawan')->where('nik', $nik)->update($data);

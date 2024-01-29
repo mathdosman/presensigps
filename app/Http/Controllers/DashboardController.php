@@ -40,14 +40,17 @@ class DashboardController extends Controller
 
         $rekapizin = DB::table('pengajuan_izin')
         ->selectRaw('SUM(IF(status="i",1,0)) as jmlizin, SUM(IF(status="s",1,0)) as jmlsakit ')
-        ->where('nik', $nik)
+        -> where('nik', $nik)
         -> whereRaw('MONTH(tgl_izin)="'.$bulanini.'"')
         -> whereRaw('YEAR(tgl_izin)="'.$tahunini.'"')
         -> where('status_approved',1)
         -> first();
 
+        $departemen = DB::table('departemen')
+        ->join('karyawan','departemen.kode_dept','=','karyawan.kode_dept')
+        ->first();
 
-        return view('dashboard.dashboard',compact('presensihariini','historibulanini','namabulan','bulanini','tahunini','rekappresensi','leaderboard','rekapizin'));
+        return view('dashboard.dashboard',compact('presensihariini','historibulanini','namabulan','bulanini','tahunini','rekappresensi','leaderboard','rekapizin','departemen'));
     }
 
     public function dashboardadmin()

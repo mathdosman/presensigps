@@ -15,7 +15,7 @@
             </div>
             <div id="user-info">
                 <h2 id="user-name">{{Auth::guard('karyawan')->user()->nama_lengkap}}</h2>
-                <span id="user-role">Head of IT</span>
+                <span class="text-uppercase" id="user-role">{{Auth::guard('karyawan')->user()->jabatan}} &thinsp; {{$departemen->nama_dept}} &thinsp; ({{Auth::guard('karyawan')->user()->kode_cabang}}) </span>
             </div>
         </div>
         <a href="/proseslogout">

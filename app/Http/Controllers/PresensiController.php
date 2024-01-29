@@ -16,17 +16,19 @@ class PresensiController extends Controller
         $hariini = date("Y-m-d");
         $nik = Auth::guard('karyawan')->user()->nik;
         $cek = DB::table('presensi')->where('tgl_presensi', $hariini)->where('nik', $nik)->count();
-        $lok_kantor = DB::table('konfigurasi_lokasi')->where('id',1)->first();
+        $kode_cabang = Auth::guard('karyawan')->user()->kode_cabang;
+        $lok_kantor = DB::table('cabang')->where('kode_cabang',$kode_cabang)->first();
         return view('presensi.create', compact('cek','lok_kantor'));
     }
 
     public function store(Request $request)
     {
         $nik = Auth :: guard('karyawan')->user()->nik;
+        $kode_cabang = Auth :: guard('karyawan')->user()->kode_cabang;
         $tgl_presensi = date("Y-m-d");
         $jam = date("H:i:s");
-        $lok_kantor = DB::table('konfigurasi_lokasi')->where('id',1)->first();
-        $lok = explode(",",$lok_kantor->lokasi_kantor);
+        $lok_kantor = DB::table('cabang')->where('kode_cabang',$kode_cabang)->first();
+        $lok = explode(",",$lok_kantor->lokasi_cabang);
         $latitudekantor = $lok[0];
         $longitudekantor = $lok[1];
         $lokasi = $request->lokasi;
@@ -54,8 +56,8 @@ class PresensiController extends Controller
 
 
 
-        if($radius > $lok_kantor->radius){
-            echo "error|Maaf Anda Berada diluar radius Absen|radius";
+        if($radius > $lok_kantor->radius_cabang){
+            echo "error|Maaf Anda Berada diluar radius Absen, $radius meter|radius";
         } else{
              if($cek > 0){
             $data_pulang = [

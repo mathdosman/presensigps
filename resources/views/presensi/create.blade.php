@@ -88,11 +88,11 @@
         function successCallback(position) { lokasi.value = position.coords.latitude +","+ position.coords.longitude;
         var map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 16);
 
-        var lokasi_kantor = "{{$lok_kantor->lokasi_kantor}}";
+        var lokasi_kantor = "{{$lok_kantor->lokasi_cabang}}";
         var lok = lokasi_kantor.split(",");
         var lat_kantor = lok[0];
         var long_kantor = lok[1];
-        var radius = "{{$lok_kantor->radius}}"
+        var radius = "{{$lok_kantor->radius_cabang}}"
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
