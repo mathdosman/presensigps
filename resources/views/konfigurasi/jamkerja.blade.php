@@ -9,7 +9,7 @@
             SMA Negeri 1 Gianyar
           </div>
           <h2 class="page-title">
-            DATA CABANG
+            SET JAM SEKOLAH
           </h2>
         </div>
 
@@ -26,11 +26,14 @@
                 <div class="card">
                     <div class="container mt-3 ms-2">
                         <div class="row">
-                            <div class="col-12">
-                                <a href="#" class="btn btn-primary" id="btnTambahCabang">
+                            <div class="col-11">
+                                <a href="#" class="btn btn-primary" id="btnjamkerja">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-rounded-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" /><path d="M15 12h-6" /><path d="M12 9v6" /></svg>
                                     Tambah Data
                                 </a>
+                            </div>
+                            <div class="col-1 text-end">
+                                <a href="/konfigurasi/jamkerja" class="btn btn-secondary">Reset</a>
                             </div>
                         </div>
                     </div>
@@ -51,60 +54,42 @@
                                 </div>
                             @endif
                         </div>
-                        <form action="/cabang" method="get">
-                            <div class="row">
-                                <div class="col-8">
-                                    <select name="kode_cabang" class="form-select" id="">
-                                        <option value="" hidden>Semua Cabang</option>
-                                        @foreach ($cabang as $d)
-                                            <option value="{{$d->kode_cabang}}">{{strtoupper($d->nama_cabang)}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
 
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
-                                            Search
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-1">
-                                    <a href="/cabang" class="btn btn-secondary">Reset</a>
+                        </div>
 
-                                </div>
-                            </div>
-                        </form>
                         <div class="table-responsive table-bordered mt-3">
                             <table class="table card-table table-vcenter table-hover text-nowrap datatable">
                                 <thead class="text-center">
                                     <tr>
                                         <th>No</th>
-                                        <th>Kode Cabang</th>
-                                        <th>Nama Cabang</th>
-                                        <th>Lokasi</th>
-                                        <th>radius_cabang</th>
+                                        <th>Kode JAM</th>
+                                        <th>Nama JAM</th>
+                                        <th>AWAL JAM MASUK</th>
+                                        <th>JAM MASUK</th>
+                                        <th>AKHIR JAM MASUK</th>
+                                        <th>JAM PULANG</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
-                                    @foreach ($cabang as $d)
+                                    @foreach ($jam_kerja as $d)
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
-                                            <td class="text-uppercase">{{$d->kode_cabang}}</td>
-                                            <td class="text-uppercase">{{$d->nama_cabang}}</td>
-                                            <td>({{$d->lokasi_cabang}})</td>
-                                            <td>{{$d->radius_cabang}} Meter</td>
+                                            <td>{{$d->kode_jam_kerja}}</td>
+                                            <td>{{$d->nama_jam_kerja}}</td>
+                                            <td>{{$d->awal_jam_masuk}}</td>
+                                            <td>{{$d->jam_masuk}}</td>
+                                            <td>{{$d->akhir_jam_masuk}}</td>
+                                            <td>{{$d->jam_pulang}}</td>
                                             <td class="text-center">
                                                 <span class="dropdown">
                                                   <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
                                                   <div class="dropdown-menu dropdown-menu-end" style="">
-                                                    <a href="#" class="edit dropdown-item" kode_cabang="{{$d->kode_cabang}}">
+                                                    <a href="#" class="edit dropdown-item" kode_jam_kerja="{{$d->kode_jam_kerja}}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-edit me-3" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M6 21v-2a4 4 0 0 1 4 -4h3.5" /><path d="M18.42 15.61a2.1 2.1 0 0 1 2.97 2.97l-3.39 3.42h-3v-3l3.42 -3.39z" /></svg>
                                                         Edit
                                                     </a>
-                                                    <form action="/cabang/{{$d->kode_cabang}}/delete" method="POST">
+                                                    <form action="/konfigurasi/{{$d->kode_jam_kerja}}/delete" method="POST">
                                                         @csrf
                                                         <a class="delete-confirm dropdown-item">
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash me-3" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
@@ -126,47 +111,69 @@
     </div>
 </div>
 
-<div class="modal modal-blur fade" id="modal-inputcabang" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal modal-blur fade" id="modal-inputjamkerja" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Tambah Data Cabang</h5>
+          <h5 class="modal-title">TAMBAH SET JAM SEKOLAH</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
 
-            <form action="/cabang/store" method="POST" id="frmCabang">
+            <form action="/konfigurasi/storejamkerja" method="POST" id="frmJK">
                 @csrf
                 <div class="row">
+                    <label>KODE JAM SEKOLAH</label>
                     <div class="input-icon mb-3">
                         <span class="input-icon-addon">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-badge-right-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 6l-.112 .006a1 1 0 0 0 -.669 1.619l3.501 4.375l-3.5 4.375a1 1 0 0 0 .78 1.625h6a1 1 0 0 0 .78 -.375l4 -5a1 1 0 0 0 0 -1.25l-4 -5a1 1 0 0 0 -.78 -.375h-6z" stroke-width="0" fill="currentColor" /></svg>
                         </span>
-                        <input type="text" value="" class="form-control text-uppercase" name="kode_cabang" id="kode_cabang" placeholder="Kode Cabang">
+                        <input type="text" value="" class="form-control text-uppercase" name="kode_jam_kerja" id="kode_jam_kerja" placeholder="KODE JAM">
                       </div>
                 </div>
                 <div class="row">
+                    <label>NAMA JAM SEKOLAH</label>
                     <div class="input-icon mb-3">
                         <span class="input-icon-addon">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-badge-right-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 6l-.112 .006a1 1 0 0 0 -.669 1.619l3.501 4.375l-3.5 4.375a1 1 0 0 0 .78 1.625h6a1 1 0 0 0 .78 -.375l4 -5a1 1 0 0 0 0 -1.25l-4 -5a1 1 0 0 0 -.78 -.375h-6z" stroke-width="0" fill="currentColor" /></svg>
                         </span>
-                        <input type="text" value="" class="form-control text-uppercase" name="nama_cabang" id="nama_cabang" placeholder="Nama Cabang">
+                        <input type="text" value="" class="form-control text-uppercase" name="nama_jam_kerja" id="nama_jam_kerja" placeholder="NAMA JAM">
                       </div>
                 </div>
                 <div class="row">
+                    <label>AWAL JAM MASUK</label>
                     <div class="input-icon mb-3">
                         <span class="input-icon-addon">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-badge-right-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 6l-.112 .006a1 1 0 0 0 -.669 1.619l3.501 4.375l-3.5 4.375a1 1 0 0 0 .78 1.625h6a1 1 0 0 0 .78 -.375l4 -5a1 1 0 0 0 0 -1.25l-4 -5a1 1 0 0 0 -.78 -.375h-6z" stroke-width="0" fill="currentColor" /></svg>
                         </span>
-                        <input type="text" value="" class="form-control text-uppercase" name="lokasi_cabang" id="lokasi_cabang" placeholder="Lokasi Cabang">
+                        <input type="time" value="" class="form-control text-uppercase" name="awal_jam_masuk" id="awal_jam_masuk" placeholder="AWAL MASUK">
                       </div>
                 </div>
                 <div class="row">
+                    <label>JAM MASUK SEKOLAH</label>
                     <div class="input-icon mb-3">
                         <span class="input-icon-addon">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-badge-right-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 6l-.112 .006a1 1 0 0 0 -.669 1.619l3.501 4.375l-3.5 4.375a1 1 0 0 0 .78 1.625h6a1 1 0 0 0 .78 -.375l4 -5a1 1 0 0 0 0 -1.25l-4 -5a1 1 0 0 0 -.78 -.375h-6z" stroke-width="0" fill="currentColor" /></svg>
                         </span>
-                        <input type="number" value="" class="form-control text-uppercase" name="radius_cabang" id="radius_cabang" placeholder="Radius">
+                        <input type="time" value="" class="form-control text-uppercase" name="jam_masuk" id="jam_masuk" placeholder="JAM MASUK">
+                      </div>
+                </div>
+                <div class="row">
+                    <label>AKHIR JAM MASUK SEKOLAH</label>
+                    <div class="input-icon mb-3">
+                        <span class="input-icon-addon">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-badge-right-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 6l-.112 .006a1 1 0 0 0 -.669 1.619l3.501 4.375l-3.5 4.375a1 1 0 0 0 .78 1.625h6a1 1 0 0 0 .78 -.375l4 -5a1 1 0 0 0 0 -1.25l-4 -5a1 1 0 0 0 -.78 -.375h-6z" stroke-width="0" fill="currentColor" /></svg>
+                        </span>
+                        <input type="time" value="" class="form-control text-uppercase" name="akhir_jam_masuk" id="akhir_jam_masuk" placeholder="AKHIR JAM MASUK">
+                      </div>
+                </div>
+                <div class="row">
+                    <label>JAM PULANG SEKOLAH</label>
+                    <div class="input-icon mb-3">
+                        <span class="input-icon-addon">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-badge-right-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 6l-.112 .006a1 1 0 0 0 -.669 1.619l3.501 4.375l-3.5 4.375a1 1 0 0 0 .78 1.625h6a1 1 0 0 0 .78 -.375l4 -5a1 1 0 0 0 0 -1.25l-4 -5a1 1 0 0 0 -.78 -.375h-6z" stroke-width="0" fill="currentColor" /></svg>
+                        </span>
+                        <input type="time" value="" class="form-control text-uppercase" name="jam_pulang" id="jam_pulang" placeholder="JAM PULANG">
                       </div>
                 </div>
 
@@ -184,11 +191,11 @@
   </div>
 
   {{-- MODAL EDIT --}}
-  <div class="modal modal-blur fade" id="modal-editcabang" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal modal-blur fade" id="modal-editjamkerja" tabindex="-1" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Edit Data Cabang</h5>
+          <h5 class="modal-title">EDIT JAM SEKOLAH</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" id="loadeditform">
@@ -202,25 +209,25 @@
 @push('myscript')
     <script>
         $(function(){
-            $("#btnTambahCabang").click(function(){
-                $("#modal-inputcabang").modal("show");
+            $("#btnjamkerja").click(function(){
+                $("#modal-inputjamkerja").modal("show");
             });
 
             $(".edit").click(function(){
-                var kode_cabang = $(this).attr('kode_cabang');
+                var kode_jam_kerja = $(this).attr('kode_jam_kerja');
                 $.ajax({
                     type: 'POST',
-                    url: '/cabang/edit',
+                    url: '/konfigurasi/edit',
                     cache: false,
                     data:{
                         _token: "{{ csrf_token();}}",
-                        kode_cabang: kode_cabang
+                        kode_jam_kerja: kode_jam_kerja
                     },
                     success:function(respond){
                         $("#loadeditform").html(respond);
                     }
                 });
-                $("#modal-editcabang").modal("show");
+                $("#modal-editjamkerja").modal("show");
             });
 
             $(".delete-confirm").click(function(e){
@@ -246,46 +253,66 @@
                 });
             });
 
-            $("#frmCabang").submit(function(){
-                var kode_cabang = $("#kode_cabang").val();
-                var nama_cabang = $("#nama_cabang").val();
-                var lokasi_cabang = $("#lokasi_cabang").val();
-                var radius_cabang = $("#radius_cabang").val();
+            $("#frmJK").submit(function(){
+                var kode_jam_kerja = $("#kode_jam_kerja").val();
+                var nama_jam_kerja = $("#nama_jam_kerja").val();
+                var awal_jam_masuk = $("#awal_jam_masuk").val();
+                var jam_masuk = $("#jam_masuk").val();
+                var akhir_jam_masuk = $("#akhir_jam_masuk").val();
+                var jam_pulang = $("#jam_pulang").val();
 
-                if(kode_cabang ==""){
+                if(kode_jam_kerja ==""){
                     Swal.fire({
                     icon: "warning",
-                    title: "Kode cabang harus diisi",
+                    title: "Kode jam sekolah harus diisi",
                     showConfirmButton: false,
                     timer: 2000
                     });
                     return false
                 }
 
-                if(nama_cabang ==""){
+                if(nama_jam_kerja ==""){
                     Swal.fire({
                     icon: "warning",
-                    title: "Nama cabang harus diisi",
+                    title: "Nama jam sekolah harus diisi",
                     showConfirmButton: false,
                     timer: 2000
                     });
                     return false
                 }
 
-                if(lokasi_cabang ==""){
+                if(awal_jam_masuk ==""){
                     Swal.fire({
                     icon: "warning",
-                    title: "Lokasi cabang harus diisi",
+                    title: "Awal jam masuk sekolah harus diisi",
                     showConfirmButton: false,
                     timer: 2000
                     });
                     return false
                 }
 
-                if(radius_cabang ==""){
+                if(jam_masuk ==""){
                     Swal.fire({
                     icon: "warning",
-                    title: "Radius cabang harus diisi",
+                    title: "Jam masuk harus diisi",
+                    showConfirmButton: false,
+                    timer: 2000
+                    });
+                    return false
+                }
+                if(akhir_jam_masuk ==""){
+                    Swal.fire({
+                    icon: "warning",
+                    title: "Akhir jam masuk sekolah harus diisi",
+                    showConfirmButton: false,
+                    timer: 2000
+                    });
+                    return false
+                }
+                if(jam_pulang ==""){
+                    Swal.fire({
+                    icon: "warning",
+                    title: "Jam pulang harus diisi",
                     showConfirmButton: false,
                     timer: 2000
                     });
@@ -296,3 +323,5 @@
         });
     </script>
 @endpush
+
+

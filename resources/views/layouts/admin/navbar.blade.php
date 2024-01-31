@@ -137,8 +137,11 @@
                 <div class="dropdown-menu">
                   <div class="dropdown-menu-columns">
                     <div class="dropdown-menu-column">
-                      <a class="dropdown-item {{ request()->is(['konfigurasi/lokasikantor']) ? 'text-success fw-bold':''}}" href="/konfigurasi/lokasikantor">
+                      {{-- <a class="dropdown-item {{ request()->is(['konfigurasi/lokasikantor']) ? 'text-success fw-bold':''}}" href="/konfigurasi/lokasikantor">
                         Lokasi Sekolah
+                      </a> --}}
+                      <a class="dropdown-item {{ request()->is(['konfigurasi/jamkerja']) ? 'text-success fw-bold':''}}" href="/konfigurasi/jamkerja">
+                        Set Jam Sekolah
                       </a>
                     </div>
 
