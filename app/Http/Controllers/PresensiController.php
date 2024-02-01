@@ -12,13 +12,52 @@ use Illuminate\Support\Facades\Redirect;
 
 class PresensiController extends Controller
 {
+    public function gethari()
+    {
+        $hari = date("D");
+        switch($hari){
+            case 'Sun':
+                $hari_ini = "Minggu";
+                break;
+            case 'Mon':
+                $hari_ini = "Senin";
+                break;
+            case 'Tue':
+                $hari_ini = "Selasa";
+                break;
+            case 'Wed':
+                $hari_ini = "Rabu";
+                break;
+            case 'Thu':
+                $hari_ini = "Kamis";
+                break;
+            case 'Fri':
+                $hari_ini = "Jumat";
+                break;
+            case 'Sat':
+                $hari_ini = "Sabtu";
+                break;
+
+            default:
+            $hari_ini = "Tidak diketahui";
+            break;
+        }
+        return $hari_ini;
+    }
+
     public function create(){
         $hariini = date("Y-m-d");
+        $namahari = $this ->gethari();
         $nik = Auth::guard('karyawan')->user()->nik;
         $cek = DB::table('presensi')->where('tgl_presensi', $hariini)->where('nik', $nik)->count();
         $kode_cabang = Auth::guard('karyawan')->user()->kode_cabang;
         $lok_kantor = DB::table('cabang')->where('kode_cabang',$kode_cabang)->first();
-        return view('presensi.create', compact('cek','lok_kantor'));
+        $jamkerja = DB::table('konfigurasi_jamkerja')
+        ->join('jam_kerja','konfigurasi_jamkerja.kode_jam_kerja','=','jam_kerja.kode_jam_kerja')
+        ->where('nik',$nik)
+        ->where('hari', $namahari)
+        ->first();
+        return view('presensi.create', compact('cek','lok_kantor','jamkerja'));
     }
 
     public function store(Request $request)
