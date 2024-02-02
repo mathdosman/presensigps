@@ -9,7 +9,7 @@
             SMA Negeri 1 Gianyar
           </div>
           <h2 class="page-title">
-            SET JAM SEKOLAH
+            EDIT SET JAM SEKOLAH PER KELAS
           </h2>
         </div>
 
@@ -21,6 +21,8 @@
 @section('content')
 <div class="page-body">
     <div class="container-xl">
+        <form action="/konfigurasi/jamkerjadept/{{$jamkerjadept->kode_jk_dept}}/update" method="POST">
+            @csrf
             <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -40,28 +42,38 @@
                             @endif
                                     </div>
                                 </div>
-                                <table class="table">
-                                    <tr>
-                                        <th>NISN</th>
-                                        <td>:</td>
-                                        <td>{{$karyawan->nik}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Nama Lengkap</th>
-                                        <td>:</td>
-                                        <td>{{$karyawan->nama_lengkap}}</td>
-                                    </tr>
-
-                                </table>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <select name="kode_cabang" id="kode_cabang" class="form-select" required disabled>
+                                                        <option value="">Pilih Cabang</option>
+                                                        @foreach ($cabang as $d)
+                                                            <option {{$d->kode_cabang == $jamkerjadept->kode_cabang ? 'selected' : ''}} value="{{$d->kode_cabang}}">{{strtoupper($d->nama_cabang)}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <select name="kode_dept" id="kode_dept" class="form-select" required disabled>
+                                                        <option value="">Pilih Kelas</option>
+                                                        @foreach ($departemen as $d)
+                                                            <option {{$d->kode_dept == $jamkerjadept->kode_dept ? 'selected' : ''}} value="{{$d->kode_dept}}">{{strtoupper($d->nama_dept)}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="card mt-2">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-6 border">
-                                        <form action="/konfigurasi/updatesetjamkerja" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="nik" value="{{$karyawan->nik}}">
                                             <table class="table">
                                                 <thead class="text-center">
                                                     <tr>
@@ -69,26 +81,26 @@
                                                         <th>Sekolah</th>
                                                     </tr>
                                                 </thead>
-                                               <tbody>
-                                                @foreach ($setjamkerja as $s)
-                                                <tr>
-                                                    <td>{{$s->hari}}
-                                                        <input type="hidden" name="hari[]" value="{{$s->hari}}">
-                                                    </td>
-                                                    <td>
-                                                        <select name="kode_jam_kerja[]" id="kode_jam_kerja" class="form-select">
-                                                            <option value="">Pilih Jam Sekolah</option>
-                                                            @foreach ($jamkerja as $d)
-                                                            <option {{$d->kode_jam_kerja == $s->kode_jam_kerja ? 'selected' :''}} class="text-uppercase" value="{{$d->kode_jam_kerja}}">{{strtoupper($d->nama_jam_kerja)}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                               </tbody>
+                                                <tbody>
+                                                    @foreach ($jamkerjadept_detail as $s)
+                                                    <tr>
+                                                        <td>{{$s->hari}}
+                                                            <input type="hidden" name="hari[]" value="{{$s->hari}}">
+                                                        </td>
+                                                        <td>
+                                                            <select name="kode_jam_kerja[]" id="kode_jam_kerja" class="form-select">
+                                                                <option value="" hidden>Pilih Jam Sekolah</option>
+                                                                @foreach ($jamkerja as $d)
+                                                                <option {{$d->kode_jam_kerja == $s->kode_jam_kerja ? 'selected' :''}} class="text-uppercase" value="{{$d->kode_jam_kerja}}">{{strtoupper($d->nama_jam_kerja)}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
                                             </table>
-                                            <button class="btn btn-primary w-100" type="submit">Update</button>
-                                        </form>
+                                            <button class="btn btn-primary w-100" type="submit">Simpan</button>
+
                                     </div>
                                     <div class="col-6 border">
                                         <table class="table">
@@ -124,6 +136,12 @@
                         </div>
                     </div>
             </div>
+        </form>
     </div>
 </div>
+
+
+
+
 @endsection
+

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Setjamkerja;
 use Illuminate\Http\Request;
+use App\Models\Setjamkerjadept;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
@@ -160,4 +161,99 @@ class KonfigurasiController extends Controller
 
     }
 
+    public function jamkerjadept(){
+        $jamkerjadept = DB::table('konfigurasi_jk_dept')
+        ->join('cabang','konfigurasi_jk_dept.kode_cabang','=','cabang.kode_cabang')
+        ->join('departemen','konfigurasi_jk_dept.kode_dept','=','departemen.kode_dept')
+        ->get();
+
+        return view('konfigurasi.jamkerjadept', compact('jamkerjadept'));
+    }
+
+    public function createjamkerjadept(){
+        $jamkerja =DB::table('jam_kerja')->orderBy('nama_jam_kerja')->get();
+        $cabang = DB::table('cabang')->get();
+        $departemen = DB::table('departemen')->get();
+        return view('konfigurasi.createjamkerjadept',compact('jamkerja','cabang','departemen'));
+    }
+
+    public function storejamkerjadept(Request $request)
+    {
+        $kode_cabang = $request->kode_cabang;
+        $kode_dept = $request->kode_dept;
+        $hari = $request->hari;
+        $kode_jam_kerja = $request->kode_jam_kerja;
+        $kode_jk_dept = "J".$kode_cabang.$kode_dept;
+
+        DB::beginTransaction();
+        try {
+            //Menyimpan data ke table konfigurasi_jk_dept
+            DB::table('konfigurasi_jk_dept')->insert([
+                'kode_jk_dept' => $kode_jk_dept,
+                'kode_cabang' => $kode_cabang,
+                'kode_dept' => $kode_dept
+            ]);
+            for($i=0; $i< count($hari); $i++){
+                $data[] = [
+                    'kode_jk_dept' => $kode_jk_dept,
+                    'hari' => $hari[$i],
+                    'kode_jam_kerja' => $kode_jam_kerja[$i]
+                ];
+            }
+            Setjamkerjadept::insert($data);
+            DB::commit();
+            return redirect('konfigurasi/jamkerjadept')->with(['success'=>'Data Berhasil Di Simpan']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect('konfigurasi/jamkerjadept')->with(['warning'=>'Data Gagal Di Simpan']);
+        }
+      }
+
+      public function editjamkerjadept($kode_jk_dept){
+
+        $jamkerja =DB::table('jam_kerja')->orderBy('nama_jam_kerja')->get();
+        $cabang = DB::table('cabang')->get();
+        $departemen = DB::table('departemen')->get();
+        $jamkerjadept = DB::table('konfigurasi_jk_dept')
+        ->where('kode_jk_dept', $kode_jk_dept)->first();
+        $jamkerjadept_detail = DB::table('konfigurasi_jk_dept_detail')->where('kode_jk_dept', $kode_jk_dept)->get();
+        return view('konfigurasi.editjamkerjadept',compact('jamkerja','cabang','departemen','jamkerjadept','jamkerjadept_detail'));
+      }
+
+      public function updatejamkerjadept($kode_jk_dept, Request $request)
+      {
+
+        $hari = $request->hari;
+        $kode_jam_kerja = $request->kode_jam_kerja;
+
+        DB::beginTransaction();
+        try {
+
+            DB::table('konfigurasi_jk_dept_detail')->where('kode_jk_dept', $kode_jk_dept)->delete();
+
+            for($i=0; $i< count($hari); $i++){
+                $data[] = [
+                    'kode_jk_dept' => $kode_jk_dept,
+                    'hari' => $hari[$i],
+                    'kode_jam_kerja' => $kode_jam_kerja[$i]
+                ];
+            }
+            Setjamkerjadept::insert($data);
+            DB::commit();
+            return redirect('konfigurasi/jamkerjadept')->with(['success'=>'Data Berhasil Di Update']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect('konfigurasi/jamkerjadept')->with(['warning'=>'Data Gagal Di Update']);
+        }
+      }
+      public function deletejamkerjadept($kode_jk_dept)
+      {
+        try {
+            DB::table('konfigurasi_jk_dept')->where('kode_jk_dept', $kode_jk_dept)->delete();
+            return Redirect::back()->with(['success'=>'Data Berhasil di Hapus']);
+        } catch (\Exception $e) {
+            return Redirect::back()->with(['warning'=>'Data Gagal di Hapus']);
+
+        }
+    }
 }

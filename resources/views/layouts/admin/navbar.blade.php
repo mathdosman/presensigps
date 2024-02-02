@@ -143,6 +143,9 @@
                       <a class="dropdown-item {{ request()->is(['konfigurasi/jamkerja']) ? 'text-success fw-bold':''}}" href="/konfigurasi/jamkerja">
                         Set Jam Sekolah
                       </a>
+                      <a class="dropdown-item {{ request()->is(['konfigurasi/jamkerjadept']) ? 'text-success fw-bold':''}}" href="/konfigurasi/jamkerjadept">
+                        Set Jam Kelas
+                      </a>
                     </div>
 
                   </div>
