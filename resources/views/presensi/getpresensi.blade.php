@@ -24,6 +24,7 @@ function selisih($jam_masuk, $jam_keluar)
         <td>{{$d->nik}}</td>
         <td>{{$d->nama_lengkap}}</td>
         <td>{{$d->nama_dept}}</td>
+        <td>{{$d->nama_jam_kerja}}</td>
         <td>{{$d->jam_in}}</td>
         <td>
             <img src="{{url($foto_in)}}" alt="foto_in" class="avatar">
@@ -37,9 +38,9 @@ function selisih($jam_masuk, $jam_keluar)
             @endif
         </td>
         <td>
-            @if ($d->jam_in > '07:30')
+            @if ($d->jam_in > $d->jam_masuk)
             @php
-                $jamterlambat = selisih('07:30:00',$d->jam_in);
+                $jamterlambat = selisih($d->jam_masuk,$d->jam_in);
             @endphp
             <span class="badge bg-danger"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-thumb-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 13v-8a1 1 0 0 0 -1 -1h-2a1 1 0 0 0 -1 1v7a1 1 0 0 0 1 1h3a4 4 0 0 1 4 4v1a2 2 0 0 0 4 0v-5h3a2 2 0 0 0 2 -2l-1 -5a2 3 0 0 0 -2 -2h-7a3 3 0 0 0 -3 3" /></svg> {{$jamterlambat}}</span>
             @else

@@ -189,22 +189,58 @@
             </div>
             <div class="tab-content mt-2" style="margin-bottom:100px;">
                 <div class="tab-pane fade show active" id="home" role="tabpanel">
-                    <ul class="listview image-listview">
-                        @foreach ($historibulanini as $d)
-                        <li>
-                            <div class="item">
-                                <div class="icon-box bg-primary">
-                                    <ion-icon name="ribbon-outline"></ion-icon>
+                    <style>
+                        .historicontent{
+                            display: flex;
+                        }
+                        .datapresensi{
+                            margin-left: 10px;
+                        }
+                    </style>
+                    @foreach ($historibulanini as $d)
+                    <div class="card historicard mb-1">
+                        <div class="card-body">
+                            <div class="historicontent">
+                                <div class="iconpresensi">
+                                    <ion-icon name="finger-print-outline" style="font-size: 48px " class="text-success"></ion-icon>
                                 </div>
-                                <div class="in">
-                                    <div>{{date("d-m-Y",strtotime($d->tgl_presensi))}}</div>
-                                    <span class="badge badge-success">{{$d->jam_in}}</span>
-                                    <span class="badge badge-danger">{{$presensihariini !== null && $d->jam_out !==null ? $d->jam_out : "Belum Absen" }}</span>
+                                <div class="datapresence">
+                                    <h3 style="line-height: 3px">{{$d->nama_jam_kerja}}</h3>
+                                    @php
+                                       $tgl_indo = tgl_indo(date($d->tgl_presensi));
+                                    @endphp
+                                    <h4 style="margin: 0px !important">{{$tgl_indo}}</h4>
+                                    {{-- <h4 style="margin: 0px !important">{{date("d-m-Y",strtotime($d->tgl_presensi))}}</h4> --}}
+
+                                    <span>
+                                        {!! $d->jam_in != null ? date("H:i",strtotime($d->jam_in)): '<span class="text-danger">Belum Absen</span>' !!}
+                                    </span>
+                                    <span>
+                                        {!! $d->jam_out != null ? " - " .date("H:i",strtotime($d->jam_out)): '<span class="text-danger">- Belum Absen</span>' !!}
+                                    </span>
+                                    <div id="keterangan">
+                                        @php
+                                            $jam_in = date("H:i",strtotime($d->jam_in));
+                                            $jam_masuk = date("H:i",strtotime($d->jam_masuk));
+
+                                            $jadwal_jam_masuk = $d-> tgl_presensi." ".$jam_masuk;
+                                            $jam_presensi = $d-> tgl_presensi." ".$jam_in;
+                                        @endphp
+                                        @if ($jam_in > $jam_masuk)
+                                        @php
+                                           $lambat = hitungjamterlambat($jadwal_jam_masuk, $jam_presensi);
+                                        @endphp
+                                            <span class="text-danger">Terlambat {{$lambat}}</span>
+                                            @else
+                                            <span class="text-success">Tepat Waktu</span>
+                                            @endif
+                                    </div>
                                 </div>
                             </div>
-                        </li>
-                        @endforeach
-                    </ul>
+                        </div>
+                    </div>
+                    @endforeach
+
                 </div>
                 <div class="tab-pane fade" id="profile" role="tabpanel">
                     <ul class="listview image-listview">

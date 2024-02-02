@@ -16,6 +16,7 @@ class DashboardController extends Controller
         $nik = Auth::guard('karyawan')->user()->nik;
         $presensihariini = DB::table('presensi')->where('nik', $nik)->where('tgl_presensi', $hariini)->first();
         $historibulanini = DB::table('presensi')
+        ->leftJoin('jam_kerja','presensi.kode_jam_kerja','=','jam_kerja.kode_jam_kerja')
         ->where('nik',$nik)
         ->whereRaw('MONTH(tgl_presensi)="'.$bulanini.'"')
         ->whereRaw('YEAR(tgl_presensi)="'.$tahunini.'"')
@@ -24,8 +25,8 @@ class DashboardController extends Controller
 
 
         $rekappresensi = DB::table('presensi')
-        ->selectRaw('COUNT(nik) as jmlhadir, SUM(IF(jam_in > "07:30",1,0))as jmlterlambat')
-        // ->leftjoin('jam_kerja','presensi.kode_jam_kerja','=','jam_kerja.kode_jam_kerja')
+        ->selectRaw('COUNT(nik) as jmlhadir, SUM(IF(jam_in > jam_masuk,1,0))as jmlterlambat')
+        ->leftjoin('jam_kerja','presensi.kode_jam_kerja','=','jam_kerja.kode_jam_kerja')
         -> where('nik', $nik)
         -> whereRaw('MONTH(tgl_presensi)="'.$bulanini.'"')
         -> whereRaw('YEAR(tgl_presensi)="'.$tahunini.'"')
@@ -57,12 +58,15 @@ class DashboardController extends Controller
     {
         $hariini = date('Y-m-d');
 
+
+
         $totalsiswa = DB::table('karyawan')->selectRaw('COUNT(nik) as totals')
         ->where('jabatan','siswa')
         ->first();
 
         $rekappresensi = DB::table('presensi')
-        ->selectRaw('COUNT(nik) as jmlhadir, SUM(IF(jam_in > "07:30",1,0))as jmlterlambat')
+        ->selectRaw('COUNT(nik) as jmlhadir, SUM(IF(jam_in > jam_masuk,1,0))as jmlterlambat')
+        ->leftJoin('jam_kerja','presensi.kode_jam_kerja','=','jam_kerja.kode_jam_kerja')
         ->where('tgl_presensi', $hariini)
         -> first();
 

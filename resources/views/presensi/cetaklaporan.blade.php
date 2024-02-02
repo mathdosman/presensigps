@@ -141,7 +141,7 @@ function selisih($jam_masuk, $jam_keluar)
 @php
 $path_in = Storage::url('uploads/absensi/'.$d -> foto_in);
 $path_out = Storage::url('uploads/absensi/'.$d -> foto_out);
-$jamterlambat = selisih('07:30:00',$d->jam_in);
+$jamterlambat = selisih($d->jam_masuk,$d->jam_in);
 @endphp
 <td>{{$loop ->iteration}}</td>
 <td>{{date("d-m-Y",strtotime($d->tgl_presensi))}}</td>
@@ -158,7 +158,7 @@ $jamterlambat = selisih('07:30:00',$d->jam_in);
     @endif
 </td>
 <td>
-    @if ($d->jam_in >"07:30")
+    @if ($d->jam_in >$d->jam_masuk)
     <b class="fw-bold text-danger">Terlambat ({{$jamterlambat}})</b>
     @else
     <b class="fw-bold text-success">Tepat Waktu</b>
