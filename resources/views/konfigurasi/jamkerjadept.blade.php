@@ -71,7 +71,7 @@
                                             @foreach ($jamkerjadept as $d)
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
-                                                    <td>{{$d->kode_jk_dept}}</td>
+                                                    <td>{{strtoupper($d->kode_jk_dept)}}</td>
                                                     <td>{{strtoupper($d->nama_cabang)}}</td>
                                                     <td>{{strtoupper($d->nama_dept)}}</td>
                                                     <td class="text-center">

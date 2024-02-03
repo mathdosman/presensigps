@@ -83,6 +83,7 @@ class PresensiController extends Controller
     {
         $nik = Auth :: guard('karyawan')->user()->nik;
         $kode_cabang = Auth :: guard('karyawan')->user()->kode_cabang;
+        $kode_dept = Auth::guard('karyawan')->user()->kode_dept;
         $tgl_presensi = date("Y-m-d");
         $jam = date("H:i:s");
         $lok_kantor = DB::table('cabang')->where('kode_cabang',$kode_cabang)->first();
@@ -97,11 +98,22 @@ class PresensiController extends Controller
         $jarak = $this->distance($latitudekantor, $longitudekantor, $latitudeuser, $longitudeuser);
         $radius = round($jarak["meters"]);
         $namahari = $this ->gethari();
+
         $jamkerja = DB::table('konfigurasi_jamkerja')
         ->join('jam_kerja','konfigurasi_jamkerja.kode_jam_kerja','=','jam_kerja.kode_jam_kerja')
         ->where('nik',$nik)
         ->where('hari', $namahari)
         ->first();
+
+        if($jamkerja ==null){
+            $jamkerja = DB::table('konfigurasi_jk_dept_detail')
+            ->join('konfigurasi_jk_dept','konfigurasi_jk_dept_detail.kode_jk_dept','=','konfigurasi_jk_dept.kode_jk_dept')
+            ->join('jam_kerja','konfigurasi_jk_dept_detail.kode_jam_kerja','=','jam_kerja.kode_jam_kerja')
+            ->where('kode_dept', $kode_dept)
+            ->where('kode_cabang', $kode_cabang)
+            ->where('hari', $namahari)
+            ->first();
+        }
 
         $cek = DB::table('presensi')->where('tgl_presensi', $tgl_presensi)->where('nik', $nik)->count();
 
@@ -258,7 +270,9 @@ class PresensiController extends Controller
     public function izin()
     {
         $nik = Auth::guard('karyawan')->user()->nik;
-        $dataizin = DB::table('pengajuan_izin')->where('nik', $nik)->get();
+        $dataizin = DB::table('pengajuan_izin')
+        ->orderBy('tgl_izin_dari','desc')
+        ->where('nik', $nik)->get();
         return view('presensi.izin', compact('dataizin'));
     }
 
@@ -480,5 +494,27 @@ class PresensiController extends Controller
         $cek = DB::table('pengajuan_izin')->where('nik', $nik)
         ->where('tgl_izin', $tgl_izin)->count();
         return $cek;
+    }
+
+    public function showact($kode_izin){
+
+        $dataizin = DB::table('pengajuan_izin')
+        ->where('kode_izin', $kode_izin)->first();
+
+        return view('presensi.showact',compact('dataizin'));
+    }
+    public function deleteizin($kode_izin){
+
+        $cekdataizin = DB::table('pengajuan_izin')->where('kode_izin', $kode_izin)->first();
+        $doc_sid = $cekdataizin->doc_sid;
+        try {
+            DB::table('pengajuan_izin')->where('kode_izin', $kode_izin)->delete();
+            if($doc_sid !== null){
+                Storage::delete('public/uploads/sid/'.$doc_sid);
+            }
+            return Redirect::back()->with(['success'=>'Data Berhasil di Hapus']);
+        } catch (\Exception $e) {
+            return Redirect::back()->with(['error'=>'Data Gagal di Hapus']);
+        }
     }
 }

@@ -6,7 +6,10 @@ use App\Http\Controllers\CabangController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\IzinabsenController;
+use App\Http\Controllers\IzinsakitController;
 use App\Http\Controllers\DepartemenController;
+use App\Http\Controllers\IzindispenController;
 use App\Http\Controllers\KonfigurasiController;
 
 /*
@@ -57,6 +60,27 @@ Route::middleware(['auth:karyawan'])->group(function(){
     Route::get('/presensi/buatizin', [PresensiController::class, 'buatizin']);
     Route::post('/presensi/storeizin', [PresensiController::class, 'storeizin']);
     Route::post('/presensi/cekpengajuanizin', [PresensiController::class, 'cekpengajuanizin']);
+
+        //Izizn Absen
+    Route::get('/izinabsen', [IzinabsenController::class,'create']);
+    Route::post('/izinabsen/store', [IzinabsenController::class,'store']);
+    Route::get('/izinabsen/{kode_izin}/edit', [IzinabsenController::class,'edit']);
+    Route::post('/izinabsen/{kode_izin}/update', [IzinabsenController::class,'update']);
+
+    //Izin Sakit
+    Route::get('/izinsakit', [IzinsakitController::class,'create']);
+    Route::post('/izinsakit/store', [IzinsakitController::class,'store']);
+    Route::get('/izinsakit/{kode_izin}/edit', [IzinsakitController::class,'edit']);
+    Route::post('/izinsakit/{kode_izin}/update', [IzinsakitController::class,'update']);
+
+    //Izin Dispen
+    Route::get('/izindispen', [IzindispenController::class,'create']);
+    Route::post('/izindispen/store', [IzindispenController::class,'store']);
+    Route::get('/izindispen/{kode_izin}/edit', [IzindispenController::class,'edit']);
+    Route::post('/izindispen/{kode_izin}/update', [IzindispenController::class,'update']);
+
+    Route::get('/izin/{kode_izin}/showact', [PresensiController::class,'showact']);
+    Route::get('/izin/{kode_izin}/delete', [PresensiController::class,'deleteizin']);
 
 
 });
@@ -121,5 +145,7 @@ Route::middleware(['auth:user'])->group(function(){
     Route::get('/konfigurasi/jamkerjadept/{kode_jk_dept}/edit', [KonfigurasiController::class, 'editjamkerjadept']);
     Route::post('/konfigurasi/jamkerjadept/{kode_jk_dept}/update', [KonfigurasiController::class, 'updatejamkerjadept']);
     Route::get('/konfigurasi/jamkerjadept/{kode_jk_dept}/delete',[KonfigurasiController::class, 'deletejamkerjadept']);
+
+
 });
 

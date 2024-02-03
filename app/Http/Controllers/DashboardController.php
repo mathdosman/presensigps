@@ -14,6 +14,7 @@ class DashboardController extends Controller
         $bulanini = date("m")*1;
         $tahunini = date("Y");
         $nik = Auth::guard('karyawan')->user()->nik;
+        $kode_dept = Auth::guard('karyawan')->user()->kode_dept;
         $presensihariini = DB::table('presensi')->where('nik', $nik)->where('tgl_presensi', $hariini)->first();
         $historibulanini = DB::table('presensi')
         ->leftJoin('jam_kerja','presensi.kode_jam_kerja','=','jam_kerja.kode_jam_kerja')
@@ -34,6 +35,7 @@ class DashboardController extends Controller
 
         $leaderboard = DB::table('presensi')
         ->join('karyawan','presensi.nik','=','karyawan.nik')
+        ->leftJoin('jam_kerja','presensi.kode_jam_kerja','=','jam_kerja.kode_jam_kerja')
         ->where('tgl_presensi',$hariini)
         ->orderBy('jam_in','desc')
         ->get();
@@ -42,16 +44,18 @@ class DashboardController extends Controller
         $rekapizin = DB::table('pengajuan_izin')
         ->selectRaw('SUM(IF(status="i",1,0)) as jmlizin, SUM(IF(status="s",1,0)) as jmlsakit ')
         -> where('nik', $nik)
-        -> whereRaw('MONTH(tgl_izin)="'.$bulanini.'"')
-        -> whereRaw('YEAR(tgl_izin)="'.$tahunini.'"')
+        -> whereRaw('MONTH(tgl_izin_dari)="'.$bulanini.'"')
+        -> whereRaw('YEAR(tgl_izin_dari)="'.$tahunini.'"')
         -> where('status_approved',1)
         -> first();
 
-        $departemen = DB::table('departemen')
-        ->join('karyawan','departemen.kode_dept','=','karyawan.kode_dept')
+        $coba = DB::table('karyawan')
+        ->join('departemen','karyawan.kode_dept','=','departemen.kode_dept')
+        -> where('nik', $nik)
         ->first();
 
-        return view('dashboard.dashboard',compact('presensihariini','historibulanini','namabulan','bulanini','tahunini','rekappresensi','leaderboard','rekapizin','departemen'));
+
+        return view('dashboard.dashboard',compact('presensihariini','historibulanini','namabulan','bulanini','tahunini','rekappresensi','leaderboard','rekapizin','coba'));
     }
 
     public function dashboardadmin()
@@ -72,7 +76,7 @@ class DashboardController extends Controller
 
         $rekapizin = DB::table('pengajuan_izin')
         ->selectRaw('SUM(IF(status="i",1,0)) as jmlizin, SUM(IF(status="s",1,0)) as jmlsakit ')
-        -> where('tgl_izin', $hariini)
+        -> where('tgl_izin_dari', $hariini)
         -> where('status_approved',1)
         -> first();
 

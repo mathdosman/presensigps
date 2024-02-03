@@ -18,8 +18,6 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{{asset('assets/img/icon/192x192.png')}}">
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
     <link rel="manifest" href="{{asset('__manifest.json')}}">
-        {{-- //datepicker --}}
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
 
 </head>
 

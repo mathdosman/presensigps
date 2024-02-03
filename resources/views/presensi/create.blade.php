@@ -63,7 +63,9 @@
 <div class="jam-digital-malasngoding">
     <p>{{date("d-m-Y")}}</p>
     <p id="jam"></p>
+    <p>{{$jamkerja->kode_jam_kerja}}</p>
     <p>Masuk : {{date("H:i",strtotime($jamkerja->jam_masuk))}}</p>
+    <p>Masuk : {{date("H:i",strtotime($jamkerja->akhir_jam_masuk))}}</p>
     <p>Pulang : {{date("H:i",strtotime($jamkerja->jam_pulang))}}</p>
 </div>
 

@@ -15,7 +15,7 @@
             </div>
             <div id="user-info">
                 <h3 id="user-name">{{Auth::guard('karyawan')->user()->nama_lengkap}}</h3>
-                <span class="text-uppercase" id="user-role">{{Auth::guard('karyawan')->user()->jabatan}} &thinsp; {{$departemen->nama_dept}} &thinsp; ({{Auth::guard('karyawan')->user()->kode_cabang}}) </span>
+                <span class="text-uppercase" id="user-role">{{Auth::guard('karyawan')->user()->jabatan}} &thinsp; {{$coba->nama_dept}} &thinsp; ({{Auth::guard('karyawan')->user()->kode_cabang}}) </span>
             </div>
         </div>
         <a href="/proseslogout">
@@ -204,7 +204,7 @@
                                 <div class="iconpresensi">
                                     <ion-icon name="finger-print-outline" style="font-size: 48px " class="text-success"></ion-icon>
                                 </div>
-                                <div class="datapresence">
+                                <div class="datapresensi">
                                     <h3 style="line-height: 3px">{{$d->nama_jam_kerja}}</h3>
                                     @php
                                        $tgl_indo = tgl_indo(date($d->tgl_presensi));
@@ -253,7 +253,7 @@
                                         {{$p->nama_lengkap}} <br>
                                         {{$p->jabatan}}
                                     </div>
-                                    <span class="text-light badge {{$p->jam_in < "07:30" ? 'bg-success' : 'bg-danger'}}">{{$p->jam_in}}</span>
+                                    <span class="text-light badge {{$p->jam_in < $p->jam_masuk ? 'bg-success' : 'bg-danger'}}">{{$p->jam_in}}</span>
                                 </div>
                             </div>
                         </li>
