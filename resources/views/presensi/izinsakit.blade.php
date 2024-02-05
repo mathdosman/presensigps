@@ -120,6 +120,7 @@
                             <thead class="text-center">
                                 <tr>
                                     <th>No.</th>
+                                    <th>Kode Ajuan</th>
                                     <th>Tanggal</th>
                                     <th>NISN</th>
                                     <th>Nama Siswa</th>
@@ -130,15 +131,21 @@
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
+
                             <tbody class="text-center">
                                 @foreach ($izinsakit as $d)
                                    <tr>
                                     <td>{{$loop->iteration + $izinsakit->firstItem() -1}}</td>
-                                    <td>{{date('d-m-Y',strtotime($d->tgl_izin))}}</td>
+                                    <td>{{$d->kode_izin}}</td>
+                                    @if($d->tgl_izin_sampai == $d->tgl_izin_dari)
+                                    <td>{{date('d-m-Y',strtotime($d->tgl_izin_dari))}}</td>
+                                    @else
+                                    <td>{{date('d-m-Y',strtotime($d->tgl_izin_dari))}} <br> s/d <br>{{date('d-m-Y',strtotime($d->tgl_izin_sampai))}}</td>
+                                    @endif
                                     <td>{{$d->nik}}</td>
                                     <td class="text-start">{{$d->nama_lengkap}}</td>
                                     <td>{{$d->nama_dept}}</td>
-                                    <td>{{$d->status== "i" ? "izin" : "sakit"}}</td>
+                                    <td>{{$d->status== "i" ? "izin" : "sakit"}} <br> {{hitunghari($d->tgl_izin_dari,$d->tgl_izin_sampai)}} hari</td>
                                     <td class="text-start">{{$d->keterangan}}</td>
                                     <td>
                                         @if ($d->status_approved == 1)
@@ -151,11 +158,11 @@
                                     </td>
                                     <td>
                                         @if($d->status_approved==0)
-                                        <a href="#" class="btn btn-sm btn-primary persetujuan" id_izinsakit="{{$d->id}}">
+                                        <a href="#" class="btn btn-sm btn-primary persetujuan" kode_izin="{{$d->kode_izin}}">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10" /></svg>
                                         </a>
                                         @else
-                                        <a href="/presensi/{{$d->id}}/batalkanizinsakit" class="btn btn-sm btn-danger">
+                                        <a href="/presensi/{{$d->kode_izin}}/batalkanizinsakit" class="btn btn-sm btn-danger">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                                     </a>
                                     @endif
@@ -187,7 +194,7 @@
         <div class="modal-body">
           <form action="/presensi/approveizinsakit" method="POST">
             @csrf
-            <input type="hidden" id="id_izinsakit_form" name="id_izinsakit_form">
+            <input type="hidden" id="kode_izin_form" name="kode_izin_form">
             <div class="row">
                 <div class="col-12">
                     <div class="form-group">
@@ -220,8 +227,8 @@
         $(function(){
             $(".persetujuan").click(function(e){
                 e.preventDefault();
-                var id_izinsakit = $(this).attr("id_izinsakit");
-                $("#id_izinsakit_form").val(id_izinsakit);
+                var kode_izin = $(this).attr("kode_izin");
+                $("#kode_izin_form").val(kode_izin);
                 $("#modal-izinsakit").modal("show");
             });
 

@@ -47,6 +47,7 @@
                                     <th>NISN</th>
                                     <th>Nama Siswa</th>
                                     <th>Kelas</th>
+                                    <th>Status</th>
                                     <th>Jam Sekolah</th>
                                     <th>Jam Masuk</th>
                                     <th>Foto</th>

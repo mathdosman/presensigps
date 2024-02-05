@@ -64,8 +64,7 @@
     <p>{{date("d-m-Y")}}</p>
     <p id="jam"></p>
     <p>{{$jamkerja->kode_jam_kerja}}</p>
-    <p>Masuk : {{date("H:i",strtotime($jamkerja->jam_masuk))}}</p>
-    <p>Masuk : {{date("H:i",strtotime($jamkerja->akhir_jam_masuk))}}</p>
+    <p>Masuk : {{date("H:i",strtotime($jamkerja->jam_masuk))}} s/d {{date("H:i",strtotime($jamkerja->akhir_jam_masuk))}}</p>
     <p>Pulang : {{date("H:i",strtotime($jamkerja->jam_pulang))}}</p>
 </div>
 
@@ -126,10 +125,16 @@
         var long_kantor = lok[1];
         var radius = "{{$lok_kantor->radius_cabang}}"
 
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+            maxZoom: 20,
+            subdomains:['mt0','mt1','mt2','mt3']
         }).addTo(map);
+
+        // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        //     maxZoom: 19,
+        //     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        // }).addTo(map);
+
         var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
         var circle = L.circle([lat_kantor,long_kantor], {
             color: 'red',

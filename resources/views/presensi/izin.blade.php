@@ -31,6 +31,47 @@
         @endif
     </div>
 </div>
+
+<form action="/presensi/izin" method="GET" id="frmdataizin">
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group">
+                    <select name="bulan" id="bulan" class="form-control selectmaterialize">
+                        <option value="">Bulan</option>
+                        @for ($i=1 ; $i<=12; $i++)
+                            <option {{Request('bulan') == $i ? 'selected' : ''}} value="{{$i}}">{{$namabulan[$i]}}</option>
+                        @endfor
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <select name="tahun" id="tahun" class="form-control selectmaterialize">
+                        <option value="">Tahun</option>
+                        @php
+                            $tahun_awal = 2023;
+                            $tahun_sekarang = date("Y");
+                            for($t = $tahun_awal; $t<=$tahun_sekarang; $t++){
+                                if(Request('tahun') == $t){
+                                    $selected = 'selected';
+                                }else{
+                                    $selected = '';
+                                }
+                                echo "<option $selected value='$t'>$t</option>";}
+                        @endphp
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary w-100 mb-1">Cari</button>
+            </div>
+        </div>
+    </div>
+</form>
+
 <div class="container " style="margin-bottom: 70px">
     <div class="row">
         <div class="col-12">
@@ -58,7 +99,7 @@
             }
 
             @endphp
-        <div class="card mb-1 card_izin" kode_izin="{{$d->kode_izin}}" data-toggle="modal" data-target="#actionSheetIconed">
+        <div class="card mb-1 card_izin" kode_izin="{{$d->kode_izin}}" status_approved="{{$d->status_approved}}" data-toggle="modal" data-target="#actionSheetIconed">
             <div class="card-body">
                 <div class="historicontent">
                     <div class="iconpresensi text-center mb-3">
@@ -160,7 +201,40 @@
         $(function(){
             $(".card_izin").click(function(e){
                 var kode_izin = $(this).attr("kode_izin");
-                $("#showact").load('/izin/'+kode_izin+'/showact');
+                var status_approved = $(this).attr("status_approved");
+
+                if(status_approved == 1)
+                {
+                    Swal.fire({
+                            title: "Oops !!",
+                            text: 'Pengajuan tidak dapat diperbaiki',
+                            icon: "warning"
+                            });
+                    return false;
+                }else{
+                    $("#showact").load('/izin/'+kode_izin+'/showact');
+                }
+            });
+
+
+            $("#frmdataizin").submit(function(){
+                var bulan = $("#bulan").val();
+                var tahun = $("#tahun").val();
+                if(bulan =="" && tahun !==""){
+                    Swal.fire({
+                            title: "Oops !!",
+                            text: 'Bulan  Harus Dipilih',
+                            icon: "warning"
+                            });
+                    return false;
+                }else if(bulan !=="" && tahun =="") {
+                    Swal.fire({
+                            title: "Oops !!",
+                            text: 'Tahun Harus Dipilih',
+                            icon: "warning"
+                            });
+                    return false;
+                }
             });
         });
     </script>

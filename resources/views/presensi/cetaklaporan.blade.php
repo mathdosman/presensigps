@@ -130,21 +130,24 @@ function selisih($jam_masuk, $jam_keluar)
 <tr>
     <th>No</th>
     <th>Tanggal</th>
+    <th>Status</th>
     <th>Jam Masuk</th>
     <th>Foto</th>
     <th>Jam Pulang</th>
     <th>Foto</th>
     <th>Keterangan <br>(jam:menit)</th>
 </tr>
-<tr>
 @foreach ($presensi as $d)
+@if($d->status == "h")
 @php
 $path_in = Storage::url('uploads/absensi/'.$d -> foto_in);
 $path_out = Storage::url('uploads/absensi/'.$d -> foto_out);
 $jamterlambat = selisih($d->jam_masuk,$d->jam_in);
 @endphp
+<tr>
 <td>{{$loop ->iteration}}</td>
 <td>{{date("d-m-Y",strtotime($d->tgl_presensi))}}</td>
+<td>{{$d->status == "h" ? "Hadir" : 'A'}}</td>
 <td>{{$d -> jam_in}}</td>
 <td>
     <img src="{{url($path_in)}}" alt="" class="avatar">
@@ -165,7 +168,26 @@ $jamterlambat = selisih($d->jam_masuk,$d->jam_in);
     @endif
 </td>
 </tr>
+@else
+<tr>
+    <td>{{$loop ->iteration}}</td>
+    <td>{{date("d-m-Y",strtotime($d->tgl_presensi))}}</td>
+    <td>
+        @if ($d->status == "s")
+            <span class="text-warning">Sakit</span>
+        @elseif ($d->status == "i")
+            <span class="text-primary">Izin</span>
+        @elseif ($d->status == "d")
+            <span class="text-success">Dispen</span>
+        @endif
+    </td>
+    <td colspan="5" class="text-start"><b>Keterangan : </b>{{$d->keterangan}}</td>
+    </tr>
+@endif
+
 @endforeach
+
+
 </table>
 <table width="100%" style="margin-top: 80px" >
     <tr>

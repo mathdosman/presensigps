@@ -98,51 +98,69 @@ function selisih($jam_masuk, $jam_keluar)
         <th rowspan="2">NISN</th>
         <th rowspan="2">Kelas</th>
         <th rowspan="2">Nama Siswa</th>
-        <th colspan="31">Tanggal</th>
+        <th colspan="{{$jmlhari}}">Bulan {{$namabulan[$bulan]}} {{$tahun}}</th>
         <th rowspan="2">Total <br> Hadir</th>
+        <th rowspan="2">S</th>
+        <th rowspan="2">I</th>
+        <th rowspan="2">A</th>
+        <th rowspan="2">D</th>
         <th rowspan="2">Telat</th>
     </tr>
     <tr>
-        <?php
-        for($i=1; $i<=31;$i++){
-            ?>
-        <th>{{$i}}</th>
-        <?php
-        }
-        ?>
+        @foreach ($rangetanggal as $d)
+            <th>{{date("d",strtotime($d))}}</th>
+        @endforeach
     </tr>
     <tr>
-        @foreach ($rekap as $d)
+        @foreach ($rekap as $r)
         <tr>
-            <td>{{$d->nik}}</td>
-            <td>{{$d->nama_dept}}</td>
-            <td style="text-align: left !important">{{$d->nama_lengkap}}</td>
+            <td>{{$r->nik}}</td>
+            <td>{{$r->kode_dept}}</td>
+            <td class="text-start">{{$r->nama_lengkap}}</td>
+                <?php
+                    $jml_hadir = 0;
+                    $jml_izin = 0;
+                    $jml_sakit = 0;
+                    $jml_dispen = 0;
+                    $jml_alpha = 0;
+                    for($i=1; $i<=$jmlhari ; $i++){
+                        $tgl = "tgl_".$i;
+                        $datapresensi = explode("|",$r->$tgl);
+                        if ($r->$tgl !== NULL){
+                            $status = $datapresensi[2];
+                        } else {
+                            $status = "";
+                        }
 
-            <?php
-            $totalhadir = 0;
-            $totalterlambat = 0;
-            for($i=1; $i<=31;$i++){
-                $tgl="tgl_".$i;
-                if(empty($d->$tgl)){
-                    $hadir=['',''];
-                    $totalhadir += 0;
-                }else{
-                    $hadir = explode("-",$d->$tgl);
-                    $totalhadir += 1;
-                    if($hadir[0] > $d->jam_masuk){
-                        $totalterlambat +=1;
-                    }
-                }
+                        if($status == "h"){
+                            $jml_hadir += 1;
+                        }
+                        if($status == "i"){
+                            $jml_izin += 1;
+                        }
+                        if($status == "s"){
+                            $jml_sakit += 1;
+                        }
+                        if($status == "d"){
+                            $jml_dispen += 1;
+                        }
+                        if(empty($status)){
+                            $jml_alpha += 1;
+                        }
                 ?>
-            <td>
-                <span style="color:{{$hadir[0] > $d->jam_masuk ? "red":""}}">{{!empty($hadir[0]) ? $hadir[0] : '-' }} </span><br>
-                <span style="color:{{$hadir[1] < $d->jam_pulang ? "red":""}}">{{!empty($hadir[1]) ? $hadir[1] : '-' }} </span><br>
-            </td>
-            <?php
-            }
-            ?>
-            <td>{{$totalhadir}}</td>
-            <td>{{$totalterlambat}}</td>
+                <td>
+                    {{$status}}
+                </td>
+                <?php
+                    }
+                ?>
+
+            <td>{{ !empty($jml_hadir) ? $jml_hadir : ""}}</td>
+            <td>{{ !empty($jml_sakit) ? $jml_sakit : ""}}</td>
+            <td>{{ !empty($jml_izin) ? $jml_izin : ""}}</td>
+            <td>{{ !empty($jml_alpha) ? $jml_alpha : ""}}</td>
+            <td>{{ !empty($jml_dispen) ? $jml_dispen : ""}}</td>
+            <td></td>
         </tr>
     @endforeach
     </tr>

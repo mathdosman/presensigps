@@ -16,9 +16,12 @@ class DashboardController extends Controller
         $nik = Auth::guard('karyawan')->user()->nik;
         $kode_dept = Auth::guard('karyawan')->user()->kode_dept;
         $presensihariini = DB::table('presensi')->where('nik', $nik)->where('tgl_presensi', $hariini)->first();
+
         $historibulanini = DB::table('presensi')
+        ->select('presensi.*','keterangan','jam_kerja.*')
         ->leftJoin('jam_kerja','presensi.kode_jam_kerja','=','jam_kerja.kode_jam_kerja')
-        ->where('nik',$nik)
+        ->leftJoin('pengajuan_izin','presensi.kode_izin','=','pengajuan_izin.kode_izin')
+        ->where('presensi.nik',$nik)
         ->whereRaw('MONTH(tgl_presensi)="'.$bulanini.'"')
         ->whereRaw('YEAR(tgl_presensi)="'.$tahunini.'"')
         ->orderBy('tgl_presensi','desc')
