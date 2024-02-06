@@ -12,19 +12,66 @@
 </div>
 @endsection
 @section('content')
-
+@if($status->status == "h")
 <div class="container">
     <div class="row" style="margin-top: 70px">
         <div class="col ">
             <div class="alert alert-warning">
                 <p>
-                    Maaf, Tidak ada jadwal absen pada hari ini, <br> Silahkan hubungi TIM IT
+                    Anda Sudah Melakukan Absen Datang dan Pulang
                 </p>
             </div>
         </div>
     </div>
 </div>
-
-
+@elseif($status->status == "i")
+<div class="container">
+    <div class="row" style="margin-top: 70px">
+        <div class="col ">
+            <div class="alert alert-warning">
+                <p>
+                    Hari ini, Anda Melakukan Pengajuan Izin tidak Sekolah
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+@elseif($status->status == "s")
+<div class="container">
+    <div class="row" style="margin-top: 70px">
+        <div class="col ">
+            <div class="alert alert-warning">
+                <p>
+                    Hari ini, Anda Melakukan Pengajuan Sakit
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+@elseif($status->status == "d")
+<div class="container">
+    <div class="row" style="margin-top: 70px">
+        <div class="col ">
+            <div class="alert alert-warning">
+                <p>
+                    Hari ini, Anda Melakukan Pengajuan Dispensasi Sekolah
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+@else
+<div class="container">
+    <div class="row" style="margin-top: 70px">
+        <div class="col ">
+            <div class="alert alert-warning">
+                <p>
+                    Maaf, Tidak ada jadwal absen pada hari ini, <br> Cek Jadwal atau Hubungi TIM IT
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 @endsection
 

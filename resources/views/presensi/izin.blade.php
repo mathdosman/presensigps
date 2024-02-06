@@ -1,6 +1,7 @@
 @extends('layouts.presensi')
 @section('header')
-<!-- App Header -->
+<div class="">
+    <!-- App Header -->
 <div class="appHeader bg-primary text-light">
     <div class="left">
         <a href="javascript:;" class="headerButton goBack">
@@ -10,30 +11,8 @@
     <div class="pageTitle">Data Izin</div>
     <div class="right"></div>
 </div>
-<!-- * App Header -->
-@endsection
-@section('content')
-<div class="row" style="margin-top: 70px">
-    <div class="col">
-        @php
-            $messagesuccess=Session::get('success');
-            $messageerror=Session::get('error');
-        @endphp
-        @if(Session::get('success'))
-            <div class="alert alert-success">
-                {{$messagesuccess}}
-            </div>
-        @endif
-        @if(Session::get('error'))
-            <div class="alert alert-danger">
-                {{$messageerror}}
-            </div>
-        @endif
-    </div>
-</div>
-
 <form action="/presensi/izin" method="GET" id="frmdataizin">
-    <div class="container">
+    <div class="container" style="margin-top: 70px">
         <div class="row">
             <div class="col-8">
                 <div class="form-group">
@@ -71,8 +50,30 @@
         </div>
     </div>
 </form>
+<!-- * App Header -->
+</div>
+@endsection
+@section('content')
 
-<div class="container " style="margin-bottom: 70px">
+<div class="container " style="position: fixed; width:100%; margin: auto; overflow-y:scroll; height:430px">
+    <div class="row"  >
+        <div class="col">
+            @php
+                $messagesuccess=Session::get('success');
+                $messageerror=Session::get('error');
+            @endphp
+            @if(Session::get('success'))
+                <div class="alert alert-success">
+                    {{$messagesuccess}}
+                </div>
+            @endif
+            @if(Session::get('error'))
+                <div class="alert alert-danger">
+                    {{$messageerror}}
+                </div>
+            @endif
+        </div>
+    </div>
     <div class="row">
         <div class="col-12">
             <style>
@@ -81,6 +82,9 @@
                 }
                 .datapresensi{
                     margin-left: 12px;
+                }
+                .card{
+                    border: 1px solid rgb(111, 51, 223);
                 }
             </style>
             @foreach ($dataizin as $d)
@@ -123,8 +127,10 @@
                             @endif
                             <small class="text-muted ">{{$d->keterangan}}</small> <br>
                             @if(!empty($d->doc_sid))
-                            <a target="_blank" href="{{asset('storage/uploads/sid/'.$d->doc_sid)}}" style="color: blue"><ion-icon name="attach-outline"></ion-icon>Lihat SID</a>
+
+                            <a target="_blank" href="{{asset('storage/uploads/sid/'.$d->doc_sid)}}" id="kakul" style="color: blue;"><ion-icon name="attach-outline"></ion-icon>Lihat SID</a>
                             @endif
+
                         </div>
                         <div class="status">
                             @if ($d->status_approved == 0)
@@ -208,7 +214,6 @@
                     Swal.fire({
                             title: "Oops !!",
                             text: 'Pengajuan tidak dapat diperbaiki',
-                            icon: "warning"
                             });
                     return false;
                 }else{

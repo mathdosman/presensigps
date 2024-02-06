@@ -49,6 +49,35 @@ class IzinsakitController extends Controller
             'keterangan' => $keterangan
         ];
 
+
+        $tgl_d = tgl_indo($tgl_izin_dari);
+        $tgl_s = tgl_indo($tgl_izin_sampai);
+
+        $cekpresensi = DB::table('presensi')
+        ->where('nik', $nik)
+        ->whereBetween('tgl_presensi',[$tgl_izin_dari,$tgl_izin_sampai])
+        ->count();
+
+        $cekpengajuan = DB::table('pengajuan_izin')
+        ->where('nik', $nik)
+        ->whereRaw('"'.$tgl_izin_dari.'" BETWEEN tgl_izin_dari AND tgl_izin_sampai')
+        ->count();
+
+        if($cekpengajuan > 0){
+            if($tgl_izin_dari == $tgl_izin_sampai){
+                return redirect('/presensi/izin')->with(['error'=>'Pengajuan izin GAGAL, karena pada tanggal '.$tgl_d .' sudah terdapat data pengajuan izin lainnya.']);
+            }else{
+                return redirect('/presensi/izin')->with(['error'=>'Pengajuan izin GAGAL, karena pada tanggal '.$tgl_d .' s/d '. $tgl_s.' sudah terdapat data pengajuan izin lainnya.']);
+            }
+        } else if($cekpresensi > 0)
+        {
+            if($tgl_izin_dari == $tgl_izin_sampai){
+                return redirect('/presensi/izin')->with(['error'=>'Pengajuan izin GAGAL, karena pada tanggal '.$tgl_d.' sudah terdapat data absen atau pengajuan izin lainnya telah disetujui.']);
+            }else{
+                return redirect('/presensi/izin')->with(['error'=>'Pengajuan izin GAGAL, karena pada tanggal '.$tgl_d .' s/d '. $tgl_s.' sudah terdapat data absen atau pengajuan izin lainnya telah disetujui.']);
+            }
+        }
+
         $simpan = DB::table('pengajuan_izin')->insert($data);
 
         if($simpan){

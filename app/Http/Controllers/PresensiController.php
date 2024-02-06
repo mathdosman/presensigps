@@ -61,6 +61,9 @@ class PresensiController extends Controller
         ->where('hari', $namahari)
         ->first();
 
+        $status= DB::table('presensi')->where('tgl_presensi', $hariini)->where('nik', $nik)->first();
+
+
         if($jamkerja ==null){
             $jamkerja = DB::table('konfigurasi_jk_dept_detail')
             ->join('konfigurasi_jk_dept','konfigurasi_jk_dept_detail.kode_jk_dept','=','konfigurasi_jk_dept.kode_jk_dept')
@@ -70,11 +73,18 @@ class PresensiController extends Controller
             ->where('hari', $namahari)
             ->first();
         }
-
-        if($jamkerja == null){
-            return view('presensi.notifjadwal');
+        if(!empty($status) && !empty($status->jam_out)){
+            return view('presensi.notifjadwal', compact('status'));
         }else{
-            return view('presensi.create', compact('cek','lok_kantor','jamkerja'));
+            if(!empty($status) && $status->status !== "h"){
+                return view('presensi.notifjadwal', compact('status'));
+            }else{
+                if($jamkerja == null){
+                    return view('presensi.notifjadwal', compact('status'));
+                }else{
+                    return view('presensi.create', compact('cek','lok_kantor','jamkerja'));
+                }
+            }
         }
 
 
@@ -259,10 +269,13 @@ class PresensiController extends Controller
         $nik = Auth::guard('karyawan')->user()->nik;
 
         $histori = DB::table('presensi')
+        ->select('presensi.*','keterangan','jam_kerja.*')
+        ->leftJoin('jam_kerja','presensi.kode_jam_kerja','=','jam_kerja.kode_jam_kerja')
+        ->leftJoin('pengajuan_izin','presensi.kode_izin','=','pengajuan_izin.kode_izin')
+        ->where('presensi.nik',$nik)
         ->whereRaw('MONTH(tgl_presensi)="'.$bulan.'"')
         ->whereRaw('YEAR(tgl_presensi)="'.$tahun.'"')
-        ->where('nik', $nik)
-        ->orderBy('tgl_presensi', 'desc')
+        ->orderBy('tgl_presensi','desc')
         ->get();
 
         return view('presensi.gethistori', compact('histori'));
@@ -391,6 +404,7 @@ class PresensiController extends Controller
     public function rekap()
     {
         $namabulan =["","Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+
         $kelas = DB::table('departemen')->get();
 
         return view('presensi.rekap',compact('namabulan','kelas'));
@@ -403,7 +417,7 @@ class PresensiController extends Controller
         $dari = $tahun."-".$bulan."-01";
         $sampai = date("Y-m-t",strtotime($dari));
         $namabulan =["","Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-        $kode_dept = $request->kelas;
+        $kode_dept = $request->kode_dept;
 
 
         $select_date = "";
@@ -454,7 +468,9 @@ class PresensiController extends Controller
                     );
 
             //AKHIR
-
+            if(!empty($kode_dept)){
+                $query->where('kode_dept', $kode_dept);
+            }
             $query->orderBy('nama_lengkap');
             $rekap = $query -> get();
 

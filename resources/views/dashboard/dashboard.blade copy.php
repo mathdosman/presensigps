@@ -1,5 +1,6 @@
 @extends('layouts.presensi')
 @section('content')
+
     <div class="section" id="user-section">
         <div id="user-detail">
             <div class="avatar">
@@ -22,7 +23,55 @@
         </a>
     </div>
 
-        <div class="section mt-2" id="presence-section">
+    {{-- <div class="section" id="menu-section">
+        <div class="card">
+            <div class="card-body text-center">
+                <div class="list-menu">
+                    <div class="item-menu text-center">
+                        <div class="menu-icon">
+                            <a href="/editprofile" class="green" style="font-size: 40px;">
+                                <ion-icon name="person-sharp"></ion-icon>
+                            </a>
+                        </div>
+                        <div class="menu-name">
+                            <span class="text-center">Profil</span>
+                        </div>
+                    </div>
+                    <div class="item-menu text-center">
+                        <div class="menu-icon">
+                            <a href="/presensi/izin" class="danger" style="font-size: 40px;">
+                                <ion-icon name="calendar-number"></ion-icon>
+                            </a>
+                        </div>
+                        <div class="menu-name">
+                            <span class="text-center">Izin</span>
+                        </div>
+                    </div>
+                    <div class="item-menu text-center">
+                        <div class="menu-icon">
+                            <a href="/presensi/histori" class="warning" style="font-size: 40px;">
+                                <ion-icon name="document-text"></ion-icon>
+                            </a>
+                        </div>
+                        <div class="menu-name">
+                            <span class="text-center">Histori</span>
+                        </div>
+                    </div>
+                    <div class="item-menu text-center">
+                        <div class="menu-icon">
+                            <a href="" class="orange" style="font-size: 40px;">
+                                <ion-icon name="location"></ion-icon>
+                            </a>
+                        </div>
+                        <div class="menu-name">
+                            Lokasi
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+    <div class="section mt-2" id="presence-section">
         <div class="todaypresence">
             <div class="row">
                 <div class="col-6">
@@ -41,7 +90,7 @@
                                 </div>
                                 <div class="presencedetail" style="margin-left: 5px;">
                                     <h4 class="presencetitle">Masuk</h4>
-                                    <span style="font-size: 0.8rem">{{$presensihariini !== null && $presensihariini->status == "h" ? $presensihariini->jam_in : "Belum Absen"}}</span>
+                                    <span style="font-size: 0.8rem">{{$presensihariini !== null ? $presensihariini->jam_in : "Belum Absen"}}</span>
                                 </div>
                             </div>
                         </div>
@@ -79,48 +128,45 @@
                 <div class="col-3">
                     <div class="card text-center">
                         <div class="card-body" style="padding:12px 10px !important">
-                        <span class="badge bg-info" style="position: absolute; top:2px; right:5px; font-size:0.6rem; z-index:999">{{$rekappresensi->jmlhadir}}</span>
-                        <ion-icon name="accessibility-outline" style="font-size:1.3rem" class="text-info"></ion-icon>
+                        <span class="badge bg-danger" style="position: absolute; top:2px; right:5px; font-size:0.6rem; z-index:999">{{$rekappresensi->jmlhadir}}</span>
+                        <ion-icon name="accessibility-outline" style="font-size:1.3rem" class="text-primary"></ion-icon>
                         <br>
                         <span style="font-size:0.9rem; font-weight:700">Hadir</span>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-3">
                     <div class="card text-center">
                         <div class="card-body" style="padding:12px 10px !important">
-                        <span class="badge bg-warning" style="position: absolute; top:2px; right:5px; font-size:0.6rem; z-index:999">{{$rekappresensi->jmlsakit}}</span>
-                        <ion-icon name="medkit-outline" style="font-size:1.3rem" class="text-warning"></ion-icon>
-                        <br>
-                        <span style="font-size:0.9rem; font-weight:700">Sakit</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-3">
-                    <div class="card text-center">
-                        <div class="card-body" style="padding:12px 10px !important">
-                        <span class="badge bg-primary" style="position: absolute; top:2px; right:5px; font-size:0.6rem; z-index:999">{{$rekappresensi->jmlizin}}</span>
-                        <ion-icon name="document-text-outline" style="font-size:1.3rem" class="text-primary"></ion-icon>
+                        <span class="badge bg-danger" style="position: absolute; top:2px; right:5px; font-size:0.6rem; z-index:999">{{$rekapizin->jmlizin !== null ? $rekapizin->jmlizin : 0}}</span>
+                        <ion-icon name="document-text-outline" style="font-size:1.3rem" class="text-warning"></ion-icon>
                         <br>
                         <span style="font-size:0.9rem; font-weight:700">Izin</span>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-3">
                     <div class="card text-center">
                         <div class="card-body" style="padding:12px 10px !important">
-                        <span class="badge bg-success" style="position: absolute; top:2px; right:5px; font-size:0.6rem; z-index:999">{{$rekappresensi->jmldispen}}</span>
-                        <ion-icon name="medal-outline" style="font-size:1.3rem" class="text-success"></ion-icon>
+                        <span class="badge bg-danger" style="position: absolute; top:2px; right:5px; font-size:0.6rem; z-index:999">{{$rekapizin->jmlsakit !== null ? $rekapizin->jmlsakit : 0}}</span>
+                        <ion-icon name="medkit-outline" style="font-size:1.3rem" class="text-success"></ion-icon>
+                        <br>
+                        <span style="font-size:0.9rem; font-weight:700">Sakit</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card text-center">
+                        <div class="card-body" style="padding:12px 10px !important">
+                        <span class="badge bg-danger" style="position: absolute; top:2px; right:5px; font-size:0.6rem; z-index:999">{{$rekappresensi->jmlterlambat !== null ? $rekappresensi->jmlterlambat : 0}}</span>
+                        <ion-icon name="alarm-outline" style="font-size:1.3rem" class="text-danger"></ion-icon>
                         <br>
                         <span style="font-size:0.9rem; font-weight:700">Dispen</span>
                         </div>
                     </div>
                 </div>
             </div>
-            {{-- <div class="row justify-content-center mt-1">
+            <div class="row justify-content-center mt-1">
                 <div class="col-3">
                     <div class="card text-center">
                         <div class="card-body" style="padding:12px 10px !important">
@@ -134,14 +180,14 @@
                 <div class="col-3">
                     <div class="card text-center">
                         <div class="card-body" style="padding:12px 10px !important">
-                        <span class="badge bg-danger" style="position: absolute; top:2px; right:5px; font-size:0.6rem; z-index:999">{{$alpha}}</span>
-                        <ion-icon name="close-circle-outline" style="font-size:1.3rem" class="text-danger"></ion-icon>
+                        <span class="badge bg-danger" style="position: absolute; top:2px; right:5px; font-size:0.6rem; z-index:999">{{$rekappresensi->jmlterlambat !== null ? $rekappresensi->jmlterlambat : 0}}</span>
+                        <ion-icon name="alarm-outline" style="font-size:1.3rem" class="text-danger"></ion-icon>
                         <br>
                         <span style="font-size:0.9rem; font-weight:700">Alpha</span>
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
         </div>
 
 

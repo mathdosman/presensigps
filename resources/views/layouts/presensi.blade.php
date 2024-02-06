@@ -34,7 +34,19 @@
             padding: 0 !important;
             color: #495057;
         }
+        .todaypresence {
+            margin-top: 20px !important;
+            margin-bottom: 15px !important;
+        }
+        #presence-section {
+            position: absolute;
+            top: 120px;
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 10px 10px 0px 0px;
+        }
     </style>
+
 </head>
 
 <body style="background-color:#e9ecef;">
