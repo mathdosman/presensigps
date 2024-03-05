@@ -11,6 +11,7 @@ use App\Http\Controllers\IzinsakitController;
 use App\Http\Controllers\DepartemenController;
 use App\Http\Controllers\IzindispenController;
 use App\Http\Controllers\KonfigurasiController;
+use App\Http\Controllers\LaporanKelasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,6 +89,11 @@ Route::middleware(['auth:karyawan'])->group(function(){
 
     Route::get('/izin/{kode_izin}/showact', [PresensiController::class,'showact']);
     Route::get('/izin/{kode_izin}/delete', [PresensiController::class,'deleteizin']);
+
+    //Laporan Kelas
+    Route::get('/laporankelas', [LaporanKelasController::class,'laporankelas']);
+    Route::get('/lihatlaporankelas', [LaporanKelasController::class,'lihatlaporankelas']);
+    Route::post('/storelaporan', [LaporanKelasController::class,'storelaporan']);
 
 
 });

@@ -266,6 +266,20 @@
             </div>
         </div>
     </div>
-
+@if(Auth::guard('karyawan')->user()->role == 1)
+    <div class="fab-button animate bottom-right dropdown" style="margin-bottom:55px">
+        <a href="#" class="fab bg-primary" data-toggle="dropdown">
+            <ion-icon name="add-outline" role="img" class="md hydrated" aria-label="add outline"></ion-icon>
+        </a>
+        <div class="dropdown-menu">
+        <a class="dropdown-item bg-primary" href="/lihatlaporankelas">
+            <ion-icon name="receipt-outline" role="img" class="md hydrated" aria-label="image outline"></ion-icon> <p class="text-primary">Lihat Laporan</p>
+        </a>
+        <a class="dropdown-item bg-primary" href="/laporankelas">
+            <ion-icon name="receipt-outline" role="img" class="md hydrated" aria-label="image outline"></ion-icon> <p class="text-primary">Buat Laporan</p>
+        </a>
+        </div>
+    </div>
+@endif
 
 @endsection

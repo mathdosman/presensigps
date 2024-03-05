@@ -31,7 +31,7 @@ class IzinsakitController extends Controller
         ->first();
 
         $lastkodeizin = $lastizin !== null ? $lastizin->kode_izin : "";
-        $format = "S".$bulan.$thn;
+        $format = "I".$bulan.$thn;
         $kode_izin = buatkode($lastkodeizin,$format,4);
 
         if ($request->hasFile('sid')) {
