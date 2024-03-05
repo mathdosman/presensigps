@@ -61,9 +61,9 @@
                     <div class="form-group boxed">
                         <div class="input-wrapper">
                             <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                            <i class="clear-input">
-                                <ion-icon name="close-circle"></ion-icon>
-                            </i>
+                            <div class="icon-right" style="position:absolute; right:8px; top:10px">
+                                <ion-icon name="eye-off-outline" id="show_hide_password" style="font-size: 1.5rem"  ></ion-icon>
+                            </div>
                         </div>
                     </div>
 
@@ -100,6 +100,21 @@
     <!-- Base Js File -->
     <script src="{{asset('assets/js/base.js')}}"></script>
 
+    <script>
+        $(function(){
+            $("#show_hide_password").click(function(e){
+                e.preventDefault();
+                if($("#password").attr("type")=="text"){
+                    $("#password").attr("type","password");
+                    $("#show_hide_password").attr("name",'eye-off-outline');
+                }else if
+                    ($("#password").attr("type")=="password"){
+                    $("#password").attr("type","text");
+                    $("#show_hide_password").attr("name",'eye-outline');
+                }
+            });
+        });
+    </script>
 
 </body>
 

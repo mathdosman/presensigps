@@ -1,5 +1,6 @@
 @extends('layouts.presensi')
 @section('content')
+
     <div class="section" id="user-section">
         <div id="user-detail">
             <div class="avatar">
@@ -7,7 +8,7 @@
                     @php
                         $path = Storage::url('uploads/karyawan/'.Auth::guard('karyawan')->user()->foto);
                     @endphp
-                    <img src="{{url($path)}}" alt="foto" class="imaged w64">
+                    <img src="{{url($path)}}" alt="foto" class="imaged w64 fotoprofile">
                     @else
                     <img src="{{asset('assets/img/sample/avatar/avatar1.jpg')}}" alt="avatar" class="imaged w64 rounded">
                 @endif
@@ -26,7 +27,8 @@
         <div class="todaypresence">
             <div class="row">
                 <div class="col-6">
-                    <div class="card gradasigreen" style="height: 110px">
+                <a href="/presensi/create">
+                    <div class="card gradasigreen" style="height: 133px">
                         <div class="card-body">
                             <div class="presencecontent">
                                 <div class="iconpresence">
@@ -34,7 +36,7 @@
                                     @php
                                         $path = Storage::url('uploads/absensi/'.$presensihariini->foto_in);
                                     @endphp
-                                    <img src="{{url($path)}}" alt="image" class="img-fluid rounded">
+                                    <img src="{{url($path)}}" alt="image" class="imaged w64">
                                     @else
                                     <ion-icon name="camera"></ion-icon>
                                     @endif
@@ -48,26 +50,27 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="card gradasired" style="height: 110px">
-                        <div class="card-body">
-                            <div class="presencecontent">
-                                <div class="iconpresence">
-                                    @if ($presensihariini !== null && $presensihariini->jam_out !== null)
-                                    @php
-                                        $path = Storage::url('uploads/absensi/'.$presensihariini->foto_out);
-                                    @endphp
-                                    <img src="{{url($path)}}" alt="image" class="img-fluid rounded">
-                                    @else
-                                    <ion-icon name="camera"></ion-icon>
-                                    @endif
-                                </div>
-                                <div class="presencedetail" style="margin-left: 5px;">
-                                    <h4 class="presencetitle">Pulang</h4>
-                                    <span style="font-size: 0.8rem">{{$presensihariini !== null && $presensihariini->jam_out !== null ? $presensihariini->jam_out : "Belum Absen"}}</span>
+                        <div class="card gradasired" style="height: 133px">
+                            <div class="card-body">
+                                <div class="presencecontent">
+                                    <div class="iconpresence">
+                                        @if ($presensihariini !== null && $presensihariini->jam_out !== null)
+                                        @php
+                                            $path = Storage::url('uploads/absensi/'.$presensihariini->foto_out);
+                                        @endphp
+                                        <img src="{{url($path)}}" alt="image" class="imaged w64">
+                                        @else
+                                        <ion-icon name="camera"></ion-icon>
+                                        @endif
+                                    </div>
+                                    <div class="presencedetail" style="margin-left: 5px;">
+                                        <h4 class="presencetitle">Pulang</h4>
+                                        <span style="font-size: 0.8rem">{{$presensihariini !== null && $presensihariini->jam_out !== null ? $presensihariini->jam_out : "Belum Absen"}}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>

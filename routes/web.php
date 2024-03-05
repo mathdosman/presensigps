@@ -28,6 +28,13 @@ Route::middleware(['guest:karyawan'])->group(function(){
     Route::get('/', function () {
         return view('auth.login');
     })->name('login');
+
+    Route::get('/storage-link',function(){
+        $targetFolder = storage_path('app/public');
+        $linkFolder = $_SERVER['DOCUMENT_ROOT'].'/storage';
+        symlink($targetFolder,$linkFolder);
+    });
+
     Route::post('/proseslogin',[AuthController::class, 'proseslogin']);
 });
 

@@ -68,21 +68,23 @@
     <p>Pulang : {{date("H:i",strtotime($jamkerja->jam_pulang))}}</p>
 </div>
 
+
+
+<div class="row mt-2">
+    <div class="col">
+        <div id="map"></div>
+    </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col">
             @if ($cek > 0)
-            <button id="takeabsen" class="btn  btn-danger  btn-block"><ion-icon name="camera-outline"></ion-icon> ABSEN PULANG</button>
+            <button id="takeabsen" class="btn  btn-danger  btn-block" ><ion-icon name="camera-outline"></ion-icon> ABSEN PULANG</button>
             @else
             <button id="takeabsen" class="btn  btn-primary  btn-block"><ion-icon name="camera-outline"></ion-icon> ABSEN MASUK</button>
             @endif
 
         </div>
-    </div>
-</div>
-<div class="row mt-2">
-    <div class="col">
-        <div id="map"></div>
     </div>
 </div>
 
@@ -214,6 +216,5 @@
             e = e < 10 ? '0' + e : e;
             return e;
         }
-
     </script>
 @endpush

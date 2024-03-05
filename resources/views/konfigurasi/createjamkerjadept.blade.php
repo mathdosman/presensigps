@@ -88,7 +88,7 @@
                                                         </td>
                                                         <td>
                                                             <select name="kode_jam_kerja[]" id="kode_jam_kerja" class="form-select">
-                                                                <option value="" hidden>Pilih Jam Sekolah</option>
+                                                                <option value="" >Pilih Jam Sekolah</option>
                                                                 @foreach ($jamkerja as $d)
                                                                 <option class="text-uppercase" value="{{$d->kode_jam_kerja}}">{{strtoupper($d->nama_jam_kerja)}}</option>
                                                                 @endforeach
@@ -101,7 +101,7 @@
                                                         </td>
                                                         <td>
                                                             <select name="kode_jam_kerja[]" id="kode_jam_kerja" class="form-select">
-                                                                <option value="" hidden>Pilih Jam Sekolah</option>
+                                                                <option value="" >Pilih Jam Sekolah</option>
                                                                 @foreach ($jamkerja as $d)
                                                                 <option class="text-uppercase" value="{{$d->kode_jam_kerja}}">{{strtoupper($d->nama_jam_kerja)}}</option>
                                                                 @endforeach
@@ -114,7 +114,7 @@
                                                         </td>
                                                         <td>
                                                             <select name="kode_jam_kerja[]" id="kode_jam_kerja" class="form-select">
-                                                                <option value="" hidden>Pilih Jam Sekolah</option>
+                                                                <option value="" >Pilih Jam Sekolah</option>
                                                                 @foreach ($jamkerja as $d)
                                                                 <option class="text-uppercase" value="{{$d->kode_jam_kerja}}">{{strtoupper($d->nama_jam_kerja)}}</option>
                                                                 @endforeach
@@ -127,7 +127,7 @@
                                                         </td>
                                                         <td>
                                                             <select name="kode_jam_kerja[]" id="kode_jam_kerja" class="form-select">
-                                                                <option value="" hidden>Pilih Jam Sekolah</option>
+                                                                <option value="" >Pilih Jam Sekolah</option>
                                                                 @foreach ($jamkerja as $d)
                                                                 <option class="text-uppercase" value="{{$d->kode_jam_kerja}}">{{strtoupper($d->nama_jam_kerja)}}</option>
                                                                 @endforeach
@@ -140,7 +140,7 @@
                                                         </td>
                                                         <td>
                                                             <select name="kode_jam_kerja[]" id="kode_jam_kerja" class="form-select">
-                                                                <option value="" hidden>Pilih Jam Sekolah</option>
+                                                                <option value="" >Pilih Jam Sekolah</option>
                                                                 @foreach ($jamkerja as $d)
                                                                 <option class="text-uppercase" value="{{$d->kode_jam_kerja}}">{{strtoupper($d->nama_jam_kerja)}}</option>
                                                                 @endforeach
@@ -153,7 +153,7 @@
                                                         </td>
                                                         <td>
                                                             <select name="kode_jam_kerja[]" id="kode_jam_kerja" class="form-select">
-                                                                <option value="" hidden>Pilih Jam Sekolah</option>
+                                                                <option value="" >Pilih Jam Sekolah</option>
                                                                 @foreach ($jamkerja as $d)
                                                                 <option class="text-uppercase" value="{{$d->kode_jam_kerja}}">{{strtoupper($d->nama_jam_kerja)}}</option>
                                                                 @endforeach
@@ -166,7 +166,7 @@
                                                         </td>
                                                         <td>
                                                             <select name="kode_jam_kerja[]" id="kode_jam_kerja" class="form-select">
-                                                                <option value="" hidden>Pilih Jam Sekolah</option>
+                                                                <option value="" >Pilih Jam Sekolah</option>
                                                                 @foreach ($jamkerja as $d)
                                                                 <option class="text-uppercase" value="{{$d->kode_jam_kerja}}">{{strtoupper($d->nama_jam_kerja)}}</option>
                                                                 @endforeach

@@ -50,6 +50,7 @@ class IzinabsenController extends Controller
             'keterangan' => $keterangan
         ];
 
+
         $tgl_d = tgl_indo($tgl_izin_dari);
         $tgl_s = tgl_indo($tgl_izin_sampai);
 
@@ -63,8 +64,7 @@ class IzinabsenController extends Controller
         ->whereRaw('"'.$tgl_izin_dari.'" BETWEEN tgl_izin_dari AND tgl_izin_sampai')
         ->count();
 
-
-        if($cekpengajuan > 0 ){
+        if($cekpengajuan > 0){
             if($tgl_izin_dari == $tgl_izin_sampai){
                 return redirect('/presensi/izin')->with(['error'=>'Pengajuan izin GAGAL, karena pada tanggal '.$tgl_d .' sudah terdapat data pengajuan izin lainnya.']);
             }else{

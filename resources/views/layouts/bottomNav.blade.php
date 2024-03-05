@@ -12,9 +12,10 @@
             <strong>History</strong>
         </div>
     </a>
-    <a href="/presensi/create" class="item">
+
+    <a href="/presensi/create" class="item {{ request()-> is('presensi/create') ? 'd-none' : 'show'}}">
         <div class="col">
-            <div class="action-button large">
+            <div class="action-button large" id="takeabsen">
                 <ion-icon name="camera" role="img" class="md hydrated" aria-label="add outline"></ion-icon>
             </div>
         </div>

@@ -140,7 +140,7 @@
                         <span class="input-icon-addon">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-badge-right-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 6l-.112 .006a1 1 0 0 0 -.669 1.619l3.501 4.375l-3.5 4.375a1 1 0 0 0 .78 1.625h6a1 1 0 0 0 .78 -.375l4 -5a1 1 0 0 0 0 -1.25l-4 -5a1 1 0 0 0 -.78 -.375h-6z" stroke-width="0" fill="currentColor" /></svg>
                         </span>
-                        <input type="text" value="" class="form-control text-uppercase" name="kode_dept" id="kode_dept" placeholder="Kode Kelas">
+                        <input type="text" value="" class="form-control text-uppercase" name="kode_dept" id="kode_dept" placeholder="Kode Kelas" required>
                       </div>
                 </div>
                 <div class="row">
@@ -148,7 +148,7 @@
                         <span class="input-icon-addon">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-badge-right-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 6l-.112 .006a1 1 0 0 0 -.669 1.619l3.501 4.375l-3.5 4.375a1 1 0 0 0 .78 1.625h6a1 1 0 0 0 .78 -.375l4 -5a1 1 0 0 0 0 -1.25l-4 -5a1 1 0 0 0 -.78 -.375h-6z" stroke-width="0" fill="currentColor" /></svg>
                         </span>
-                        <input type="text" value="" class="form-control text-uppercase" name="nama_dept" id="nama_dept" placeholder="Nama Kelas">
+                        <input type="text" value="" class="form-control text-uppercase" name="nama_dept" id="nama_dept" placeholder="Nama Kelas" required>
                       </div>
                 </div>
 
@@ -228,31 +228,6 @@
                 });
             });
 
-            $("#frmDepartemen").submit(function(){
-                var kode_dept = $("#kode_dept").val();
-                var nama_dept = $("#nama_dept").val();
-                // var nama_dept = $("#nama_dept").val();
-                if(kode_dept ==""){
-                    Swal.fire({
-                    icon: "warning",
-                    title: "Kode Kelas harus diisi",
-                    showConfirmButton: false,
-                    timer: 2000
-                    });
-                    return false
-                }
-
-                if(nama_dept ==""){
-                    Swal.fire({
-                    icon: "warning",
-                    title: "Nama Kelas harus diisi",
-                    showConfirmButton: false,
-                    timer: 2000
-                    });
-                    return false
-                }
-
-            });
         });
     </script>
 @endpush
